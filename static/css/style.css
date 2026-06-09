@@ -1,0 +1,42 @@
+/* General Body Reset */
+body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f4f6f9; /* Light grey background for the main content */
+}
+
+/* Main Layout Wrapper */
+.main-wrapper {
+    min-height: 100vh;
+}
+
+/* The Professional Sidebar */
+.sidebar {
+    width: 250px;
+    background: linear-gradient(180deg, #5e35b1 0%, #3949ab 100%); /* Deep Purple to Indigo */
+    box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+}
+
+/* Sidebar Links */
+.nav-link {
+    border-radius: 5px;
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+.nav-link:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+    transform: translateX(5px); /* Smooth slight move to the right on hover */
+}
+
+/* Card Styling for Dashboard */
+.card {
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    transition: transform 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px); /* Cards lift up slightly on hover */
+}

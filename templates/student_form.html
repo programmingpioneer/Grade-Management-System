@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block title %}Add New User - Grade Manager{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="text-dark">Add New User</h2>
+    <a href="/students" class="btn btn-outline-secondary fw-bold">← Back to List</a>
+</div>
+
+<div class="card p-4 shadow-sm border-0" style="max-width: 800px; margin: auto;">
+    <form method="POST" action="/add_user">
+        
+        <h5 class="text-primary mb-3 border-bottom pb-2">Personal Information</h5>
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label class="form-label fw-bold">Full Name</label>
+                <input type="text" name="name" class="form-control" placeholder="e.g. Ali Raza" required>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label class="form-label fw-bold">Father's Name</label>
+                <input type="text" name="father_name" class="form-control" placeholder="e.g. Muhammad Zahir" required>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label class="form-label fw-bold">Email Address</label>
+                <input type="email" name="email" class="form-control" placeholder="e.g. ali@example.com" required>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label class="form-label fw-bold">Contact Number</label>
+                <input type="text" name="contact" class="form-control" placeholder="0300-1234567" required>
+            </div>
+        </div>
+
+        <div class="mb-4">
+            <label class="form-label fw-bold">Previous Qualifications</label>
+            <input type="text" name="qualifications" class="form-control" placeholder="e.g. SSC Science Group (2023), HSSC Pre-Eng" required>
+        </div>
+
+        <h5 class="text-primary mb-3 border-bottom pb-2">System Credentials</h5>
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label class="form-label fw-bold">Role</label>
+                <select name="role" class="form-select" required>
+                    <option value="student" selected>Student</option>
+                    <option value="teacher">Teacher</option>
+                    <option value="admin">Administrator</option>
+                </select>
+            </div>
+            <div class="col-md-6 mb-4">
+                <label class="form-label fw-bold">Username</label>
+                <input type="text" name="username" class="form-control" placeholder="e.g. ali.raza123" required>
+            </div>
+        </div>
+
+        <div class="alert alert-info py-2">
+            <strong>Note:</strong> A unique 6-digit Student ID will be generated automatically upon saving. Default password is 'admin123'.
+        </div>
+
+        <button type="submit" class="btn btn-primary w-100 fw-bold" style="background: #5e35b1; border: none;">Save Full Profile</button>
+        
+    </form>
+</div>
+{% endblock %}

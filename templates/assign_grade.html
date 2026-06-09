@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}Assign Grade - Grade Manager{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="text-dark">Assign Grade to <span class="text-primary">{{ student.name }}</span></h2>
+    <a href="/students" class="btn btn-outline-secondary fw-bold">← Cancel</a>
+</div>
+
+<div class="card p-4 shadow-sm border-0" style="max-width: 500px;">
+    <form method="POST" action="/assign_grade/{{ student.id }}">
+        
+        <div class="mb-3">
+            <label class="form-label fw-bold">Subject Name</label>
+            <input type="text" name="subject" class="form-control" placeholder="e.g. Computer Science" required>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label fw-bold">Marks Obtained</label>
+            <input type="number" name="marks" class="form-control" placeholder="e.g. 85" min="0" max="100" required>
+        </div>
+
+        <div class="mb-4">
+            <label class="form-label fw-bold">Grade Letter</label>
+            <select name="grade_letter" class="form-select" required>
+                <option value="A+">A+</option>
+                <option value="A">A</option>
+                <option value="B">B</option>
+                <option value="C">C</option>
+                <option value="F">F</option>
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-success w-100 fw-bold">Save Grade</button>
+        
+    </form>
+</div>
+{% endblock %}

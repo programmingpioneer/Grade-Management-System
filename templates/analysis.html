@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% block title %}System Analysis - Grade Manager{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-5">
+    <div>
+        <h2 class="text-dark fw-bolder mb-0">📊 Performance Analysis</h2>
+        <p class="text-muted mb-0">System-wide academic statistics and leaderboards</p>
+    </div>
+</div>
+
+{% if empty %}
+<div class="alert alert-warning text-center p-5 rounded-4 shadow-sm">
+    <h4 class="fw-bold">No Data Available</h4>
+    <p>Generate some report cards in the system to view the performance analysis.</p>
+    <a href="/grading_dashboard" class="btn btn-primary fw-bold mt-2">Generate Report</a>
+</div>
+{% else %}
+
+<div class="row mb-5">
+    <div class="col-md-4 mb-3">
+        <div class="card shadow-sm border-0 rounded-4 bg-primary text-white h-100">
+            <div class="card-body p-4 text-center">
+                <h6 class="text-uppercase fw-bold text-white-50 letter-spacing-1">System Average</h6>
+                <h1 class="display-4 fw-bold mb-0">{{ avg_perc }}%</h1>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4 mb-3">
+        <div class="card shadow-sm border-0 rounded-4 bg-success text-white h-100">
+            <div class="card-body p-4 text-center">
+                <h6 class="text-uppercase fw-bold text-white-50 letter-spacing-1">Pass Rate</h6>
+                <h1 class="display-4 fw-bold mb-0">{{ pass_rate }}%</h1>
+                <small class="fw-bold text-white-50">{{ passed }} Passed / {{ failed }} Failed</small>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4 mb-3">
+        <div class="card shadow-sm border-0 rounded-4 bg-dark text-white h-100">
+            <div class="card-body p-4 text-center">
+                <h6 class="text-uppercase fw-bold text-white-50 letter-spacing-1">Total Reports Processed</h6>
+                <h1 class="display-4 fw-bold mb-0">{{ total }}</h1>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card shadow-sm border-0 rounded-4">
+    <div class="card-header bg-white border-bottom pb-3 pt-4 px-4 d-flex align-items-center">
+        <h4 class="fw-bold text-dark mb-0">🏆 Elite Leaderboard (Top 3)</h4>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+            <thead class="table-light text-uppercase text-muted" style="font-size: 0.85rem;">
+                <tr>
+                    <th class="py-3 px-4">Rank</th>
+                    <th class="py-3">Student Name</th>
+                    <th class="py-3">ID Code</th>
+                    <th class="py-3 text-end px-4">Percentage</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for topper in top_students %}
+                <tr>
+                    <td class="py-3 px-4">
+                        {% if loop.index == 1 %}
+                            <span class="badge bg-warning text-dark fs-6 px-3 py-2 rounded-pill shadow-sm">🥇 1st Place</span>
+                        {% elif loop.index == 2 %}
+                            <span class="badge bg-secondary text-white fs-6 px-3 py-2 rounded-pill shadow-sm">🥈 2nd Place</span>
+                        {% else %}
+                            <span class="badge bg-danger text-white fs-6 px-3 py-2 rounded-pill shadow-sm">🥉 3rd Place</span>
+                        {% endif %}
+                    </td>
+                    <td class="py-3 fw-bold text-dark fs-5">{{ topper.student.name }}</td>
+                    <td class="py-3 text-muted">{{ topper.student.student_id_code }}</td>
+                    <td class="py-3 text-end px-4 fw-bold fs-5 text-primary">{{ topper.percentage }}%</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

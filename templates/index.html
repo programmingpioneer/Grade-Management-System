@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - Grade Manager{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="text-dark">Admin Dashboard</h2>
+    <span class="text-muted fw-bold">Welcome, System!</span>
+</div>
+
+<div class="row g-4">
+    <div class="col-md-3">
+        <div class="card bg-primary text-white p-4 h-100">
+            <h2 class="display-6 fw-bold">{{ student_count }}</h2>
+            <p class="mb-0 fs-5">Total Students</p>
+        </div>
+    </div>
+    
+    <div class="col-md-3">
+        <div class="card bg-success text-white p-4 h-100">
+           <h2 class="display-6 fw-bold">{{ teacher_count }}</h2>
+            <p class="mb-0 fs-5">Total Teachers</p>
+        </div>
+    </div>
+    
+    <div class="col-md-3">
+        <div class="card bg-warning text-dark p-4 h-100">
+            <h2 class="display-6 fw-bold">1</h2>
+            <p class="mb-0 fs-5">Classrooms</p>
+        </div>
+    </div>
+    
+    <div class="col-md-3">
+        <div class="card bg-info text-white p-4 h-100">
+            <h2 class="display-6 fw-bold">1</h2>
+            <p class="mb-0 fs-5">Subjects</p>
+        </div>
+    </div>
+</div>
+
+<div class="card shadow-sm border-0 rounded-4 mt-4">
+    <div class="card-header bg-white border-bottom pb-2 pt-3 d-flex justify-content-between align-items-center">
+        <h5 class="fw-bold text-dark mb-0">⚡ Recent Activity Feed</h5>
+        <span class="badge bg-secondary rounded-pill text-white" style="font-size: 0.75rem;">Live</span>
+    </div>
+    <div class="card-body p-0">
+        <ul class="list-group list-group-flush rounded-bottom-4">
+            
+            {% for activity in recent_activities %}
+            <li class="list-group-item px-4 py-3 d-flex justify-content-between align-items-center list-group-item-action border-bottom">
+                <div class="d-flex align-items-center">
+                    <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 45px; height: 45px; font-weight: bold;">
+                        {{ activity.student.name[0] | upper }}
+                    </div>
+                    <div>
+                        <a href="/student/{{ activity.student.id }}" class="text-decoration-none text-dark fw-bold">{{ activity.student.name }}</a>
+                        <span class="text-muted d-block" style="font-size: 0.85rem;">Term Report Generated</span>
+                    </div>
+                </div>
+                <div class="text-end">
+                    <span class="badge {% if activity.grade == 'Fail' %}bg-danger{% else %}bg-success{% endif %} rounded-pill px-3 py-2 shadow-sm">
+                        Grade: {{ activity.grade }}
+                    </span>
+                    <span class="text-muted d-block mt-1 fw-bold" style="font-size: 0.85rem;">{{ activity.percentage }}%</span>
+                </div>
+            </li>
+            {% endfor %}
+
+            {% if not recent_activities %}
+            <li class="list-group-item px-4 py-5 text-center text-muted">
+                <h6 class="fw-bold text-secondary">No recent activity yet.</h6>
+                <p class="mb-0" style="font-size: 0.9rem;">Start adding students and generating report cards!</p>
+            </li>
+            {% endif %}
+            
+        </ul>
+    </div>
+</div>
+
+{% endblock %}
