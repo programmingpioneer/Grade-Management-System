@@ -41,15 +41,17 @@
         }
         .main-content {
             padding: 40px;
+            width: 100%;
+            overflow-y: auto;
         }
     </style>
 </head>
 <body>
 
     <div class="container-fluid">
-        <div class="row flex-nowrap">
+        <div class="row flex-nowrap min-vh-100">
             
-            <div class="col-auto col-md-3 col-lg-2 sidebar-bg text-white min-vh-100 d-flex flex-column p-4">
+            <div class="col-auto col-md-3 col-lg-2 sidebar-bg text-white d-flex flex-column p-4">
                 
                 <div class="text-center mb-4 mt-2">
                     <h4 class="fw-bolder text-white text-uppercase" style="letter-spacing: 2px;">Grade<span class="text-warning">Manager</span></h4>
@@ -79,11 +81,8 @@
                         🚪 <span class="ms-3 d-none d-md-inline">Secure Logout</span>
                     </a>
                 </div>
-            </div>
-            
 
-
-            <div class="mt-auto pt-3 w-100 text-center mb-2">
+                <div class="mt-auto pt-3 w-100 text-center mb-2">
                     <hr class="border-secondary opacity-25 mb-3">
                     
                     <a href="https://github.com/programmingpioneer" target="_blank" title="Visit GitHub Profile">
@@ -102,14 +101,9 @@
                         </a>
                     </div>
 
-                    <p class="text-muted mt-2 mb-0" style="font-size: 0.60rem; letter-spacing: 1px;">MALAKAND,KPK PK | © 2026</p>
+                    <p class="text-muted mt-2 mb-0" style="font-size: 0.60rem; letter-spacing: 1px;">MALAKAND, KPK PK | © 2026</p>
                 </div>
-
-
-
-
-
-
+            </div> 
             <div class="col py-3 main-content">
                 {% block content %}
                 {% endblock %}
