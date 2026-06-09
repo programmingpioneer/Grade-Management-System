@@ -20,15 +20,15 @@ Built with structured data handling, automated grade calculation, and a clean ad
 
 ## 📌 Table of Contents
 
-- [About the Project](#-about-the-project)
-- [Key Features](#-key-features)
-- [Screenshots](#-screenshots)
-- [Tech Stack](#-tech-stack)
-- [Getting Started](#-getting-started)
-- [Project Structure](#-project-structure)
-- [Grade Scale](#-grade-scale)
-- [Author](#-author)
-- [License](#-license)
+- [About the Project](https://github.com/programmingpioneer/Grade-Management-System#-about-the-project)
+- [Key Features](https://github.com/programmingpioneer/Grade-Management-System#-key-features)
+- [Screenshots](https://github.com/programmingpioneer/Grade-Management-System#-screenshots)
+- [Tech Stack](https://github.com/programmingpioneer/Grade-Management-System#%EF%B8%8F-tech-stack)
+- [Getting Started](https://github.com/programmingpioneer/Grade-Management-System#-getting-started)
+- [Project Structure](https://github.com/programmingpioneer/Grade-Management-System#-project-structure)
+- [Grade Scale](https://github.com/programmingpioneer/Grade-Management-System#-grade-scale)
+- [Author](https://github.com/programmingpioneer/Grade-Management-System#%E2%80%8D-author)
+- [License](https://github.com/programmingpioneer/Grade-Management-System#-license)
 
 ---
 
