@@ -8,13 +8,13 @@ from sqlalchemy import func
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
 
-# MySQL Configuration – NAYI DATABASE
+# MySQL Configuration – dedicated database for Grade Manager
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:Root123@localhost/grade_manager_db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db.init_app(app)
 
-# Tables create ho jaayengi agar nahi hain
+# Create tables automatically
 with app.app_context():
     db.create_all()
 
@@ -23,9 +23,9 @@ with app.app_context():
 def login():
     error = None
     if request.method == 'POST':
-        form_username = request.form.get('username')
-        form_password = request.form.get('password')
-        user = Student.query.filter_by(username=form_username, password=form_password).first()
+        username = request.form.get('username')
+        password = request.form.get('password')
+        user = Student.query.filter_by(username=username, password=password).first()
         if user:
             session['user_id'] = user.id
             session['user_name'] = user.name
@@ -53,7 +53,7 @@ def index():
                            teacher_count=total_teachers,
                            recent_activities=recent_activities)
 
-# ----------------- STUDENTS LIST -----------------
+# ----------------- STUDENT DIRECTORY -----------------
 @app.route('/students')
 def manage_students():
     if 'user_id' not in session:
@@ -61,42 +61,41 @@ def manage_students():
     all_users = Student.query.all()
     return render_template('students.html', users=all_users)
 
-# ----------------- ADD USER -----------------
+# ----------------- ADD NEW USER -----------------
 @app.route('/add_user', methods=['GET', 'POST'])
 def add_user():
     if 'user_id' not in session:
         return redirect(url_for('login'))
     if request.method == 'POST':
-        form_name = request.form.get('name')
-        form_role = request.form.get('role')
-        form_username = request.form.get('username')
-        form_father = request.form.get('father_name')
-        form_email = request.form.get('email')
-        form_contact = request.form.get('contact')
-        form_qualifications = request.form.get('qualifications')
+        name = request.form.get('name')
+        role = request.form.get('role')
+        username = request.form.get('username')
+        father_name = request.form.get('father_name')
+        email = request.form.get('email')
+        contact = request.form.get('contact')
+        qualifications = request.form.get('qualifications')
 
-        # 6-digit unique student ID
+        # Generate unique 6-digit student ID
         while True:
-            generated_code = str(random.randint(100000, 999999))
-            existing = Student.query.filter_by(student_id_code=generated_code).first()
-            if not existing:
+            code = str(random.randint(100000, 999999))
+            if not Student.query.filter_by(student_id_code=code).first():
                 break
 
         new_user = Student(
-            student_id_code=generated_code,
-            name=form_name,
-            father_name=form_father,
-            role=form_role,
-            username=form_username,
-            email=form_email,
-            contact=form_contact,
-            qualifications=form_qualifications,
+            student_id_code=code,
+            name=name,
+            father_name=father_name,
+            role=role,
+            username=username,
+            email=email,
+            contact=contact,
+            qualifications=qualifications,
             password='admin123'
         )
         db.session.add(new_user)
         db.session.commit()
         return redirect(url_for('manage_students'))
-    return render_template('student_form.html')      # <-- ye template hai tera
+    return render_template('student_form.html')
 
 # ----------------- GRADING DASHBOARD -----------------
 @app.route('/grading_dashboard')
@@ -104,7 +103,7 @@ def grading_dashboard():
     if 'user_id' not in session:
         return redirect(url_for('login'))
     all_students = Student.query.filter_by(role='student').all()
-    return render_template('grading_form.html', students=all_students)  # ensure file name is exactly 'grading_form.html'
+    return render_template('grading_form.html', students=all_students)
 
 # ----------------- PREVIEW REPORT -----------------
 @app.route('/preview_report', methods=['POST'])
@@ -127,9 +126,9 @@ def preview_report():
     prog = int(request.form.get('prog') or 0)
     db_sys = int(request.form.get('db_sys') or 0)
 
-    obtained_marks = eng + urdu + math + phy + cs + prog + db_sys
-    total_marks = 700
-    percentage = round((obtained_marks / total_marks) * 100, 2)
+    obtained = eng + urdu + math + phy + cs + prog + db_sys
+    total = 700
+    percentage = round((obtained / total) * 100, 2)
 
     if percentage >= 90:
         grade, remarks = 'O', 'Outstanding'
@@ -150,10 +149,10 @@ def preview_report():
         'attended_days': attended_days,
         'attendance_perc': attendance_perc,
         'eng': eng, 'urdu': urdu, 'math': math, 'phy': phy, 'cs': cs, 'prog': prog, 'db_sys': db_sys,
-        'obtained': obtained_marks, 'total': total_marks,
+        'obtained': obtained, 'total': total,
         'percentage': percentage, 'grade': grade, 'remarks': remarks
     }
-    return render_template('preview_report.html', data=report_data)   # <-- template name sahi hai
+    return render_template('preview_report.html', data=report_data)
 
 # ----------------- SAVE REPORT -----------------
 @app.route('/save_report', methods=['POST'])
@@ -182,13 +181,47 @@ def save_report():
     db.session.commit()
     return redirect(url_for('manage_students'))
 
-# ----------------- STUDENT PROFILE -----------------
+# ----------------- STUDENT PROFILE (FULL PAGE) -----------------
 @app.route('/student/<int:id>')
 def student_profile(id):
     if 'user_id' not in session:
         return redirect(url_for('login'))
     student = Student.query.get_or_404(id)
-    return render_template('student.html', student=student)    # 'student.html' tera file name
+    return render_template('student.html', student=student)
+
+# ----------------- JSON API FOR MODAL -----------------
+@app.route('/api/student/<int:id>')
+def api_student(id):
+    if 'user_id' not in session:
+        return {'error': 'Unauthorized'}, 401
+
+    student = Student.query.get(id)
+    if not student:
+        return {'error': 'Student not found'}, 404
+
+    reports = []
+    for r in student.report_cards:
+        reports.append({
+            'id': r.id,
+            'term_id': f'#TRM-{r.id}',
+            'total_marks': r.total_marks,
+            'obtained_marks': r.obtained_marks,
+            'percentage': r.percentage,
+            'grade': r.grade
+        })
+
+    return {
+        'id': student.id,
+        'name': student.name,
+        'student_id_code': student.student_id_code,
+        'role': student.role,
+        'father_name': student.father_name or 'N/A',
+        'username': student.username,
+        'email': student.email or 'N/A',
+        'contact': student.contact or 'N/A',
+        'qualifications': student.qualifications or 'N/A',
+        'reports': reports
+    }
 
 # ----------------- DELETE REPORT -----------------
 @app.route('/delete_report/<int:report_id>', methods=['POST'])
@@ -201,7 +234,7 @@ def delete_report(report_id):
     db.session.commit()
     return redirect(url_for('student_profile', id=student_id))
 
-# ----------------- EDIT REPORT -----------------
+# ----------------- EDIT REPORT (GET + POST) -----------------
 @app.route('/edit_report/<int:report_id>', methods=['GET', 'POST'])
 def edit_report(report_id):
     if 'user_id' not in session:
@@ -219,7 +252,8 @@ def edit_report(report_id):
         report.prog = int(request.form.get('prog') or 0)
         report.db_sys = int(request.form.get('db_sys') or 0)
 
-        report.obtained_marks = report.eng + report.urdu + report.math + report.phy + report.cs + report.prog + report.db_sys
+        report.obtained_marks = (report.eng + report.urdu + report.math +
+                                 report.phy + report.cs + report.prog + report.db_sys)
         report.total_marks = 700
         report.percentage = round((report.obtained_marks / report.total_marks) * 100, 2)
 
@@ -239,9 +273,9 @@ def edit_report(report_id):
         db.session.commit()
         return redirect(url_for('student_profile', id=report.student_id))
 
-    return render_template('edit_report.html', report=report)  # file name 'edit_report.html'
+    return render_template('edit_report.html', report=report)
 
-# ----------------- ANALYSIS -----------------
+# ----------------- SYSTEM ANALYSIS -----------------
 @app.route('/analysis')
 def analysis_dashboard():
     if 'user_id' not in session:
@@ -268,44 +302,6 @@ def analysis_dashboard():
                            pass_rate=pass_rate,
                            avg_perc=avg_percentage,
                            top_students=top_students)
-
-# ----------------- STUDENT JSON API -----------------
-@app.route('/api/student/<int:id>')
-def api_student(id):
-    if 'user_id' not in session:
-        return {'error': 'Unauthorized'}, 401
-
-    student = Student.query.get(id)
-    if not student:
-        return {'error': 'Student not found'}, 404
-
-    # Report cards ko JSON format mein convert karo
-    reports = []
-    for r in student.report_cards:
-        reports.append({
-            'id': r.id,
-            'term_id': f'#TRM-{r.id}',
-            'total_marks': r.total_marks,
-            'obtained_marks': r.obtained_marks,
-            'percentage': r.percentage,
-            'grade': r.grade
-        })
-
-    return {
-        'id': student.id,
-        'name': student.name,
-        'student_id_code': student.student_id_code,
-        'role': student.role,
-        'father_name': student.father_name or 'N/A',
-        'username': student.username,
-        'email': student.email or 'N/A',
-        'contact': student.contact or 'N/A',
-        'qualifications': student.qualifications or 'N/A',
-        'reports': reports
-    }
-@app.route('/test-student')
-def test_student():
-    return render_template('student.html', student=Student.query.first())
 
 if __name__ == '__main__':
     app.run(debug=True)
