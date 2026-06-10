@@ -1,86 +1,76 @@
-{% extends "base.html" %}
-{% block title %}System Analysis - Grade Manager{% endblock %}
-
-{% block content %}
-<div class="d-flex justify-content-between align-items-center mb-5">
-    <div>
-        <h2 class="text-dark fw-bolder mb-0">📊 Performance Analysis</h2>
-        <p class="text-muted mb-0">System-wide academic statistics and leaderboards</p>
-    </div>
-</div>
-
-{% if empty %}
-<div class="alert alert-warning text-center p-5 rounded-4 shadow-sm">
-    <h4 class="fw-bold">No Data Available</h4>
-    <p>Generate some report cards in the system to view the performance analysis.</p>
-    <a href="/grading_dashboard" class="btn btn-primary fw-bold mt-2">Generate Report</a>
-</div>
-{% else %}
-
-<div class="row mb-5">
-    <div class="col-md-4 mb-3">
-        <div class="card shadow-sm border-0 rounded-4 bg-primary text-white h-100">
-            <div class="card-body p-4 text-center">
-                <h6 class="text-uppercase fw-bold text-white-50 letter-spacing-1">System Average</h6>
-                <h1 class="display-4 fw-bold mb-0">{{ avg_perc }}%</h1>
-            </div>
-        </div>
-    </div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Analysis Dashboard – Grade Manager</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body { background: #f8fafc; font-family: 'Inter', sans-serif; }
+    .stat-card { border-radius: 12px; padding: 20px; color: white; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+    .top-performers .list-group-item { display: flex; justify-content: space-between; align-items: center; }
+  </style>
+</head>
+<body>
+  <div class="container py-4">
+    <h2 class="mb-4 fw-bold">📊 System Analysis</h2>
     
-    <div class="col-md-4 mb-3">
-        <div class="card shadow-sm border-0 rounded-4 bg-success text-white h-100">
-            <div class="card-body p-4 text-center">
-                <h6 class="text-uppercase fw-bold text-white-50 letter-spacing-1">Pass Rate</h6>
-                <h1 class="display-4 fw-bold mb-0">{{ pass_rate }}%</h1>
-                <small class="fw-bold text-white-50">{{ passed }} Passed / {{ failed }} Failed</small>
-            </div>
+    {% if empty %}
+      <div class="alert alert-info">
+        <i class="fa-solid fa-circle-info me-2"></i>No reports generated yet. 
+        <a href="/grading_dashboard" class="alert-link">Create a report</a> to see analytics.
+      </div>
+    {% else %}
+      <!-- Stats Row -->
+      <div class="row g-4 mb-4">
+        <div class="col-md-4">
+          <div class="stat-card bg-primary">
+            <h5>Total Reports</h5>
+            <h1 class="fw-bold">{{ total }}</h1>
+          </div>
         </div>
-    </div>
-
-    <div class="col-md-4 mb-3">
-        <div class="card shadow-sm border-0 rounded-4 bg-dark text-white h-100">
-            <div class="card-body p-4 text-center">
-                <h6 class="text-uppercase fw-bold text-white-50 letter-spacing-1">Total Reports Processed</h6>
-                <h1 class="display-4 fw-bold mb-0">{{ total }}</h1>
-            </div>
+        <div class="col-md-4">
+          <div class="stat-card bg-success">
+            <h5>Pass Rate</h5>
+            <h1 class="fw-bold">{{ pass_rate }}%</h1>
+            <small>{{ passed }} passed, {{ failed }} failed</small>
+          </div>
         </div>
-    </div>
-</div>
+        <div class="col-md-4">
+          <div class="stat-card bg-warning text-dark">
+            <h5>Average Percentage</h5>
+            <h1 class="fw-bold">{{ avg_perc }}%</h1>
+          </div>
+        </div>
+      </div>
 
-<div class="card shadow-sm border-0 rounded-4">
-    <div class="card-header bg-white border-bottom pb-3 pt-4 px-4 d-flex align-items-center">
-        <h4 class="fw-bold text-dark mb-0">🏆 Elite Leaderboard (Top 3)</h4>
+      <!-- Top Performers Table -->
+      <div class="card shadow-sm">
+        <div class="card-header bg-dark text-white">
+          <h5 class="mb-0">🏆 Top 3 Performers</h5>
+        </div>
+        <ul class="list-group list-group-flush top-performers">
+          {% for report in top_students %}
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            <div>
+              <span class="fw-semibold">{{ report.student.name }}</span>
+              <span class="text-muted ms-2">({{ report.student.student_id_code }})</span>
+            </div>
+            <div>
+              <span class="badge bg-success fs-6">{{ report.percentage }}%</span>
+              <span class="badge bg-info ms-1">{{ report.grade }}</span>
+            </div>
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+    {% endif %}
+    
+    <div class="mt-4">
+      <a href="/" class="btn btn-secondary">← Back to Dashboard</a>
+      <a href="/grading_dashboard" class="btn btn-primary ms-2">➕ Create New Report</a>
     </div>
-    <div class="table-responsive">
-        <table class="table table-hover align-middle mb-0">
-            <thead class="table-light text-uppercase text-muted" style="font-size: 0.85rem;">
-                <tr>
-                    <th class="py-3 px-4">Rank</th>
-                    <th class="py-3">Student Name</th>
-                    <th class="py-3">ID Code</th>
-                    <th class="py-3 text-end px-4">Percentage</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for topper in top_students %}
-                <tr>
-                    <td class="py-3 px-4">
-                        {% if loop.index == 1 %}
-                            <span class="badge bg-warning text-dark fs-6 px-3 py-2 rounded-pill shadow-sm">🥇 1st Place</span>
-                        {% elif loop.index == 2 %}
-                            <span class="badge bg-secondary text-white fs-6 px-3 py-2 rounded-pill shadow-sm">🥈 2nd Place</span>
-                        {% else %}
-                            <span class="badge bg-danger text-white fs-6 px-3 py-2 rounded-pill shadow-sm">🥉 3rd Place</span>
-                        {% endif %}
-                    </td>
-                    <td class="py-3 fw-bold text-dark fs-5">{{ topper.student.name }}</td>
-                    <td class="py-3 text-muted">{{ topper.student.student_id_code }}</td>
-                    <td class="py-3 text-end px-4 fw-bold fs-5 text-primary">{{ topper.percentage }}%</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
-</div>
-{% endif %}
-{% endblock %}
+  </div>
+</body>
+</html>

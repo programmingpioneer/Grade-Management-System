@@ -1,50 +1,33 @@
 {% extends "base.html" %}
-
-{% block title %}Manage Users - Grade Manager{% endblock %}
+{% block title %}Student Profile{% endblock %}
 
 {% block content %}
-<div class="d-flex justify-content-between align-items-center mb-4">
-    <h2 class="text-dark">Manage Users</h2>
-    <div>
-        <a href="/grading_dashboard" class="btn btn-warning fw-bold text-dark me-2">🎓 Grading System</a>
-        <a href="/add_user" class="btn btn-primary fw-bold">+ Add New User</a>
-    </div>
-</div>
-
-<div class="card p-0 shadow-sm border-0">
-    <table class="table table-hover mb-0">
-        <thead class="table-dark">
-            <tr>
-                <th>ID Code</th>
-                <th>Name</th>
-                <th>Role</th>
-                <th>Username</th>
-                <th>Email</th>
-            </tr>
-        </thead>
+<div class="container mt-4">
+    <a href="/students" class="btn btn-outline-secondary mb-3">← Back to Directory</a>
+    <h2>{{ student.name }} ({{ student.student_id_code }})</h2>
+    <p>Role: {{ student.role }}</p>
+    <hr>
+    <p>Father: {{ student.father_name or 'N/A' }}</p>
+    <p>Email: {{ student.email or 'N/A' }}</p>
+    <p>Contact: {{ student.contact or 'N/A' }}</p>
+    <p>Qualifications: {{ student.qualifications or 'N/A' }}</p>
+    
+    <h4 class="mt-4">Academic History</h4>
+    {% if student.report_cards %}
+    <table class="table">
+        <thead><tr><th>Term</th><th>%</th><th>Grade</th></tr></thead>
         <tbody>
-            {% for user in users %}
-            <tr>
-                <td class="text-muted">{{ user.student_id_code or 'N/A' }}</td>
-                <td class="py-3 fw-bold text-dark">
-    <a href="/student/{{ user.id }}" class="text-decoration-none text-primary">{{ user.name }} ↗</a>
-</td>
-                <td>
-                    <span class="badge {% if user.role == 'admin' %}bg-danger{% elif user.role == 'teacher' %}bg-success{% else %}bg-primary{% endif %}">
-                        {{ user.role | capitalize }}
-                    </span>
-                </td>
-                <td>{{ user.username }}</td>
-                <td>{{ user.email or 'N/A' }}</td>
-            </tr>
-            {% endfor %}
-            
-            {% if not users %}
-            <tr>
-                <td colspan="5" class="text-center text-muted p-4">No users found.</td>
-            </tr>
-            {% endif %}
+        {% for report in student.report_cards %}
+        <tr>
+            <td>#TRM-{{ report.id }}</td>
+            <td>{{ report.percentage }}%</td>
+            <td><span class="badge {% if report.grade == 'Fail' %}bg-danger{% else %}bg-success{% endif %}">{{ report.grade }}</span></td>
+        </tr>
+        {% endfor %}
         </tbody>
     </table>
+    {% else %}
+    <p>No reports yet.</p>
+    {% endif %}
 </div>
 {% endblock %}
