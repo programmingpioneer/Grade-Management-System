@@ -8,15 +8,17 @@ from sqlalchemy import func
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
 
-# MySQL Configuration – dedicated database for Grade Manager
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:Root123@localhost/grade_manager_db'
+# 🔥 CLOUD VS LOCAL ADAPTIVE DATABASE PROTOCOL
+if os.getenv('RENDER'):
+    # Jab code Render par chalega, toh crash se bachne ke liye SQLite automatic activate hoga
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///grade_manager_cloud.db'
+else:
+    # Jab tu apne laptop par chalayega, toh tera native MySQL chalega
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:Root123@localhost/grade_manager_db'
+
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db.init_app(app)
-
-# Create tables automatically
-with app.app_context():
-    db.create_all()
 
 # ----------------- LOGIN -----------------
 @app.route('/login', methods=['GET', 'POST'])
