@@ -5,19 +5,21 @@ from database import db
 from models import Student, Grade, ReportCard
 from sqlalchemy import func
 
+# 🔥 Base directory ka absolute path nikalne ke liye line add karo
+basedir = os.path.abspath(os.path.dirname(__file__))
+
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
 
-# 🔥 CLOUD VS LOCAL ADAPTIVE DATABASE PROTOCOL
+# 🚀 CLOUD VS LOCAL ADAPTIVE DATABASE PROTOCOL (ABSOLUTE PATH FIX)
 if os.getenv('RENDER'):
-    # Jab code Render par chalega, toh crash se bachne ke liye SQLite automatic activate hoga
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///grade_manager_cloud.db'
+    # Absolute path inject kiya taake cloud par tables sahi path par banein
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'grade_manager_cloud.db')
 else:
-    # Jab tu apne laptop par chalayega, toh tera native MySQL chalega
+    # Tera local MySQL database
     app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:Root123@localhost/grade_manager_db'
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
 db.init_app(app)
 
 # ----------------- LOGIN -----------------
