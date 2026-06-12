@@ -23,6 +23,31 @@ db.init_app(app)
 # 🛑 YEH WALI LINES DOBARE CHECK KARO, AGAR MISSING HAIN TO LAZMI DALO!
 with app.app_context():
     db.create_all()
+
+
+    # 🚨 GHOST ROUTE: DELETE THIS AFTER USE!
+@app.route('/inject_admin_99')
+def inject_admin():
+    # Pehle check karo ke admin already toh nahi
+    admin_exists = Student.query.filter_by(username='admin').first()
+    if admin_exists:
+        return "Admin already exists! Bruh, delete this route NOW.", 400
+
+    # Naya admin bypass karke daalo
+    ghost_admin = Student(
+        student_id_code='000000',
+        name='Master Admin',
+        father_name='System',
+        role='admin',
+        username='admin',
+        email='admin@system.com',
+        contact='00000000000',
+        qualifications='Root',
+        password='admin123'
+    )
+    db.session.add(ghost_admin)
+    db.session.commit()
+    return "MASSIVE W! Admin injected into the Matrix. Go to /login and DELETE THIS CODE IMMEDIATELY!"
 # ----------------- LOGIN -----------------
 @app.route('/login', methods=['GET', 'POST'])
 def login():
