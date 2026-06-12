@@ -18,9 +18,9 @@ else:
     app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:Root123@localhost/grade_manager_db'
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-with app.app_context():
-    db.create_all()
 
+# 🔌 ENGINE KI MAIN WIRE (ISAY DELETE NAHI KARNA)
+db.init_app(app)
 
 # 🛑 YEH WALI LINES DOBARE CHECK KARO, AGAR MISSING HAIN TO LAZMI DALO!
 with app.app_context():
