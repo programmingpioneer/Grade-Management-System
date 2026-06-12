@@ -18,11 +18,51 @@ else:
     app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:Root123@localhost/grade_manager_db'
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-db.init_app(app)
+with app.app_context():
+    db.create_all()
+
 
 # 🛑 YEH WALI LINES DOBARE CHECK KARO, AGAR MISSING HAIN TO LAZMI DALO!
 with app.app_context():
     db.create_all()
+    
+    # 🚀 AUTO-SEED: Permanent admin injection for ephemeral clouds
+    admin_exists = Student.query.filter_by(username='admin').first()
+    if not admin_exists:
+        ghost_admin = Student(
+            student_id_code='000000',
+            name='Master Admin',
+            father_name='System',
+            role='admin',
+            username='admin',
+            email='admin@system.com',
+            contact='00000000000',
+            qualifications='Root',
+            password='admin123'
+        )
+        db.session.add(ghost_admin)
+        db.session.commit()
+        print("MASSIVE W: Admin auto-injected!")
+
+
+    
+    # 🚀 AUTO-SEED: Permanent admin injection for ephemeral clouds
+    admin_exists = Student.query.filter_by(username='admin').first()
+    if not admin_exists:
+        ghost_admin = Student(
+            student_id_code='000000',
+            name='Master Admin',
+            father_name='System',
+            role='admin',
+            username='admin',
+            email='admin@system.com',
+            contact='00000000000',
+            qualifications='Root',
+            password='admin123'
+        )
+        db.session.add(ghost_admin)
+        db.session.commit()
+        print("MASSIVE W: Admin auto-injected!")
 
 # ----------------- LOGIN -----------------
 @app.route('/login', methods=['GET', 'POST'])
