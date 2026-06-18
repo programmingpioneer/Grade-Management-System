@@ -1,15 +1,22 @@
 <div align="center">
 
-# 🎓 GradeManager
-### Admin Console — Student Grade Management System
+# 🎓 Grade Manager
+### Flask-Based Student Grade Management System
 
-**A full-featured web-based academic management platform for schools and institutions.**  
-Built with structured data handling, automated grade calculation, and a clean admin interface.
+<br/>
+
+<!-- Attractive Subtitle Box -->
+<div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 20px; border-radius: 15px; display: inline-block; max-width: 700px;">
+  <h3 style="color: white; margin: 0;">📱 Responsive | 🌙 Dark Mode | ⚡ Auto‑Grading</h3>
+  <p style="color: #e0e0e0; margin-top: 10px; font-size: 1.1rem;">
+    A full‑stack web app for managing student grades, attendance, and academic reports — built with <strong>Flask</strong>, <strong>SQLAlchemy</strong>, and <strong>Bootstrap 5</strong>, ready for <strong>Render</strong>.
+  </p>
+</div>
 
 <br/>
 
 [![Status](https://img.shields.io/badge/Status-Active-brightgreen?style=for-the-badge)](https://github.com/programmingpioneer)
-[![Language](https://img.shields.io/badge/Language-HTML%20%7C%20CSS%20%7C%20JavaScript-blue?style=for-the-badge)](https://github.com/programmingpioneer)
+[![Tech](https://img.shields.io/badge/Tech-Python%20%7C%20Flask%20%7C%20SQLAlchemy-blue?style=for-the-badge)](https://github.com/programmingpioneer)
 [![License](https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge)](LICENSE)
 [![Author](https://img.shields.io/badge/Author-Sufyan%20Khan-purple?style=for-the-badge)](https://github.com/programmingpioneer)
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-0A66C2?style=for-the-badge&logo=linkedin)](https://www.linkedin.com/in/sufyan-khan-12321b340)
@@ -20,215 +27,207 @@ Built with structured data handling, automated grade calculation, and a clean ad
 
 ## 📌 Table of Contents
 
-- [About the Project](https://github.com/programmingpioneer/Grade-Management-System#-about-the-project)
-- [Key Features](https://github.com/programmingpioneer/Grade-Management-System#-key-features)
-- [Screenshots](https://github.com/programmingpioneer/Grade-Management-System#-screenshots)
-- [Tech Stack](https://github.com/programmingpioneer/Grade-Management-System#%EF%B8%8F-tech-stack)
-- [Getting Started](https://github.com/programmingpioneer/Grade-Management-System#-getting-started)
-- [Project Structure](https://github.com/programmingpioneer/Grade-Management-System#-project-structure)
-- [Grade Scale](https://github.com/programmingpioneer/Grade-Management-System#-grade-scale)
-- [Author](https://github.com/programmingpioneer/Grade-Management-System#%E2%80%8D-author)
-- [License](https://github.com/programmingpioneer/Grade-Management-System#-license)
+- [About the Project](#-about-the-project)
+- [Key Features](#-key-features)
+- [Screenshots](#-screenshots)
+- [Tech Stack](#-tech-stack)
+- [Getting Started](#-getting-started)
+- [Project Structure](#-project-structure)
+- [Deploy on Render](#-deploy-on-render)
+- [Grade Scale](#-grade-scale)
+- [Author](#-author)
+- [License](#-license)
 
 ---
 
 ## 📖 About the Project
 
-**GradeManager** is a browser-based Academic Administration System designed to simplify how educational institutions record, update, and report student performance data.
+**Grade Manager** is a full‑stack web application that streamlines academic administration. It allows teachers/admins to manage students, record attendance and exam scores, auto‑calculate grades, and generate report cards — all through a clean, responsive interface that works on mobile, tablet, and desktop.
 
-The system provides school administrators with a centralized dashboard to manage students, assign subject marks, auto-calculate grades, track attendance, and generate instant performance analytics — all from a clean, intuitive web interface.
+The system includes:
+- A professional admin dashboard with live stats and recent activities.
+- A student directory with quick profile pop‑ups (AJAX).
+- An automatic grading engine that computes percentages and assigns grades based on configurable scales.
+- Report card preview, save, edit, and delete functionality.
+- A system analysis page with pass rates and a top‑performers leaderboard.
+- **Dark mode** toggle (saved in browser).
+- An **About Developer** page with project info and developer bio.
 
-> Built as a real-world capstone project demonstrating front-end development, data management logic, and UI/UX design principles.
+> Designed as a real‑world portfolio project demonstrating backend development, database management, and responsive frontend design.
 
 ---
+## 📁 Project Structure
 
+<div style="background: #0b1120; border: 1px solid #1e293b; border-radius: 20px; padding: 30px 25px; color: #e2e8f0; font-family: 'Segoe UI', system-ui, sans-serif; box-shadow: 0 12px 30px rgba(0,0,0,0.5); margin: 20px 0;">
+  <h3 style="margin-top: 0; color: #fbbf24; font-size: 1.5rem; border-bottom: 1px solid #334155; padding-bottom: 10px;">📁 Project Structure</h3>
+  <table style="width:100%; border-collapse: collapse; color: #cbd5e1;">
+    <thead>
+      <tr style="border-bottom: 1px solid #1e293b;">
+        <th style="text-align: left; padding: 10px 8px; color: #94a3b8; font-weight: 600;">File / Directory</th>
+        <th style="text-align: left; padding: 10px 8px; color: #94a3b8; font-weight: 600;">Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr style="border-bottom: 1px solid #1e293b;">
+        <td style="padding: 8px;"><span style="color:#60a5fa;">📦 GradeManager/</span></td>
+        <td style="padding: 8px; color:#94a3b8;">Root project folder</td>
+      </tr>
+      <tr style="border-bottom: 1px solid #1e293b;">
+        <td style="padding: 8px 8px 8px 20px;"><span style="color:#f472b6;">app.py</span></td>
+        <td style="padding: 8px; color:#cbd5e1;">Flask routes, logic &amp; auto‑grading engine</td>
+      </tr>
+      <tr style="border-bottom: 1px solid #1e293b;">
+        <td style="padding: 8px 8px 8px 20px;"><span style="color:#f472b6;">database.py</span></td>
+        <td style="padding: 8px; color:#cbd5e1;">DB configuration &amp; init (SQLite / MySQL)</td>
+      </tr>
+      <tr style="border-bottom: 1px solid #1e293b;">
+        <td style="padding: 8px 8px 8px 20px;"><span style="color:#f472b6;">models.py</span></td>
+        <td style="padding: 8px; color:#cbd5e1;">SQLAlchemy models (Student, Grade, ReportCard)</td>
+      </tr>
+      <tr style="border-bottom: 1px solid #1e293b;">
+        <td style="padding: 8px 8px 8px 20px;"><span style="color:#f472b6;">requirements.txt</span></td>
+        <td style="padding: 8px; color:#cbd5e1;">Python dependency list</td>
+      </tr>
+      <tr style="border-bottom: 1px solid #1e293b;">
+        <td style="padding: 8px 8px 8px 20px;"><span style="color:#facc15;">📂 templates/</span></td>
+        <td style="padding: 8px; color:#cbd5e1;">HTML templates (Jinja2)</td>
+      </tr>
+      <tr style="border-bottom: 1px solid #1e293b;">
+        <td style="padding: 8px 8px 8px 40px;"><span style="color:#f472b6;">base.html</span></td>
+        <td style="padding: 8px; color:#cbd5e1;">Master layout (sidebar, dark mode toggle)</td>
+      </tr>
+      <tr style="border-bottom: 1px solid #1e293b;">
+        <td style="padding: 8px 8px 8px 40px;"><span style="color:#f472b6;">index.html</span></td>
+        <td style="padding: 8px; color:#cbd5e1;">Admin dashboard</td>
+      </tr>
+      <tr style="border-bottom: 1px solid #1e293b;">
+        <td style="padding: 8px 8px 8px 40px;"><span style="color:#f472b6;">login.html</span></td>
+        <td style="padding: 8px; color:#cbd5e1;">Login form</td>
+      </tr>
+      <tr style="border-bottom: 1px solid #1e293b;">
+        <td style="padding: 8px 8px 8px 40px;"><span style="color:#f472b6;">students.html</span></td>
+        <td style="padding: 8px; color:#cbd5e1;">Student directory + modal</td>
+      </tr>
+      <tr style="border-bottom: 1px solid #1e293b;">
+        <td style="padding: 8px 8px 8px 40px;"><span style="color:#f472b6;">student_form.html</span></td>
+        <td style="padding: 8px; color:#cbd5e1;">Add / edit user form</td>
+      </tr>
+      <tr style="border-bottom: 1px solid #1e293b;">
+        <td style="padding: 8px 8px 8px 40px;"><span style="color:#f472b6;">grading_form.html</span></td>
+        <td style="padding: 8px; color:#cbd5e1;">Grading engine input</td>
+      </tr>
+      <tr style="border-bottom: 1px solid #1e293b;">
+        <td style="padding: 8px 8px 8px 40px;"><span style="color:#f472b6;">preview_report.html</span></td>
+        <td style="padding: 8px; color:#cbd5e1;">Report preview before saving</td>
+      </tr>
+      <tr style="border-bottom: 1px solid #1e293b;">
+        <td style="padding: 8px 8px 8px 40px;"><span style="color:#f472b6;">student_profile.html</span></td>
+        <td style="padding: 8px; color:#cbd5e1;">Student detail page + academic history</td>
+      </tr>
+      <tr style="border-bottom: 1px solid #1e293b;">
+        <td style="padding: 8px 8px 8px 40px;"><span style="color:#f472b6;">edit_report.html</span></td>
+        <td style="padding: 8px; color:#cbd5e1;">Edit existing report card</td>
+      </tr>
+      <tr style="border-bottom: 1px solid #1e293b;">
+        <td style="padding: 8px 8px 8px 40px;"><span style="color:#f472b6;">assign_grade.html</span></td>
+        <td style="padding: 8px; color:#cbd5e1;">Single grade assignment (extra)</td>
+      </tr>
+      <tr style="border-bottom: 1px solid #1e293b;">
+        <td style="padding: 8px 8px 8px 40px;"><span style="color:#f472b6;">analysis.html</span></td>
+        <td style="padding: 8px; color:#cbd5e1;">System analytics &amp; leaderboard</td>
+      </tr>
+      <tr style="border-bottom: 1px solid #1e293b;">
+        <td style="padding: 8px 8px 8px 40px;"><span style="color:#f472b6;">about.html</span></td>
+        <td style="padding: 8px; color:#cbd5e1;">Developer profile &amp; projects</td>
+      </tr>
+      <tr style="border-bottom: 1px solid #1e293b;">
+        <td style="padding: 8px 8px 8px 20px;"><span style="color:#facc15;">📂 static/</span></td>
+        <td style="padding: 8px; color:#cbd5e1;">CSS &amp; assets</td>
+      </tr>
+      <tr style="border-bottom: 1px solid #1e293b;">
+        <td style="padding: 8px 8px 8px 40px;"><span style="color:#f472b6;">css/style.css</span></td>
+        <td style="padding: 8px; color:#cbd5e1;">Custom styles (dark mode, responsive)</td>
+      </tr>
+      <tr style="border-bottom: 1px solid #1e293b;">
+        <td style="padding: 8px 8px 8px 20px;"><span style="color:#facc15;">📂 screenshots/</span></td>
+        <td style="padding: 8px; color:#cbd5e1;">App screenshots</td>
+      </tr>
+      <tr>
+        <td style="padding: 8px 8px 8px 20px;"><span style="color:#f472b6;">README.md</span></td>
+        <td style="padding: 8px; color:#cbd5e1;">Project documentation</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
 ## ✨ Key Features
 
 | Feature | Description |
 |---|---|
-| 🏠 **Admin Dashboard** | Live overview of total students, teachers, classrooms, and subjects with a real-time activity feed |
-| ➕ **Add New User** | Enroll students or teachers with full personal info, role assignment, and auto-generated 6-digit ID |
-| 🎓 **Auto-Grading Engine** | Input subject marks and attendance; system auto-calculates grade, percentage, and pass/fail status |
-| ✏️ **Edit Report Card** | Update any student's marks and trigger an instant recalculation of their academic result |
-| 👤 **Student Profile** | Full profile view with personal info, qualifications, and complete academic history table |
-| 📊 **Performance Analytics** | Class-wide statistics — system average, pass/pass rate, total reports, and an Elite Leaderboard (Top 3) |
-| 🔐 **Role-Based Access** | Supports Student and Teacher roles with a secure login/logout system |
-| 📋 **Academic History** | Per-student term-by-term result records with Edit and Delete actions |
+| 🏠 **Admin Dashboard** | Live counts of students, teachers, classrooms, and a recent activity feed with grade badges. |
+| 📁 **Student Directory** | View all users; click any name to open a detailed profile modal with academic history. |
+| ➕ **Add New User** | Enroll students, teachers, or admins. Auto‑generates a unique 6‑digit student ID. |
+| 🎓 **Grading Engine** | Select a student, enter attendance & subject marks (out of 100), then preview the auto‑calculated report. |
+| 📋 **Report Preview & Save** | Review the calculated grade/percentage before saving. Reports are stored permanently. |
+| ✏️ **Edit Report Card** | Update any existing report; grades recalculate automatically. |
+| 👤 **Student Profile** | Full page with personal info, qualifications, and a complete academic history table. |
+| 📊 **System Analytics** | Class‑wide stats: total reports, pass/fail rate, average percentage, and top‑3 leaderboard. |
+| 🌙 **Dark Mode** | Toggle between light and dark themes — preference saved in browser. |
+| 👤 **About Developer** | Dedicated page with developer introduction, skills, and projects. |
+| 📱 **Fully Responsive** | Built with Bootstrap 5 grids, offcanvas sidebar, and mobile‑first CSS. Works on all screen sizes. |
+| 🔐 **Role-Based Access** | Login system with admin/student/teacher roles (default admin seeded automatically). |
 
 ---
 
 ## 📸 Screenshots
 
-> ⚡ Click any image to view it in full resolution.
+<!-- Large Dashboard Screenshot -->
+<div style="text-align: center; margin: 30px 0;">
+  <a href="screenshots/Dashboard.png" target="_blank">
+    <img src="screenshots/Dashboard.png" alt="Dashboard" style="width:100%; max-width:900px; border-radius:16px; box-shadow: 0 8px 20px rgba(0,0,0,0.3); transition: transform 0.3s;" onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'">
+  </a>
+  <p style="color:#94a3b8; margin-top: 10px;"><strong>Admin Dashboard</strong> – Click to enlarge</p>
+</div>
 
----
+<!-- Collapsible Preview for Other Screenshots -->
+<details>
+  <summary style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 12px 20px; border-radius: 10px; cursor: pointer; font-weight: 700; font-size: 1.1rem; display: inline-block; margin: 20px 0; box-shadow: 0 4px 10px rgba(102,126,234,0.4);">
+    🖼️ Click to Preview More Screenshots
+  </summary>
 
-### 🏠 Admin Dashboard
-The central hub showing live institution statistics and a real-time student activity feed with grade badges.
-
-![Admin Dashboard](screenshots/Dashboard.png)
-
----
-
-### ➕ Add New User
-Enroll new students or staff with personal info, contact details, previous qualifications, and system credentials. A unique **6-digit Student ID** is auto-generated on save.
-
-![Add New User](screenshots/Add_New_user.png)
-
----
-
-### 👤 Student Profile
-Individual student profile card displaying personal details, username, email, qualification history, and a full **Academic History** table with term-by-term results.
-
-![Student Profile](screenshots/Student_profile.png)
-
----
-
-### 🎓 Auto-Grading Engine
-Select a student, enter attendance data and subject marks (out of 100), then click **Generate Preview** to auto-calculate their grade and percentage instantly.
-
-![Auto-Grading Engine](screenshots/Grading_engine.png)
-
----
-
-### ✏️ Edit Report Card
-Update an existing student's attendance and subject marks. Click **Update Record & Recalculate** to refresh their grade automatically.
-
-![Edit Report Card](screenshots/Edit_student_profile.png)
-
----
-
-### 📊 Performance Analysis
-Class-wide analytics showing system average, pass rate with pass/fail count, total reports processed, and a ranked **Elite Leaderboard** for the top 3 performers.
-
-![Performance Analysis](screenshots/Analysis.png)
-
----
+  <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin: 20px 0;">
+    <!-- Student Directory -->
+    <a href="screenshots/Student_profile.png" target="_blank">
+      <img src="screenshots/Student_profile.png" alt="Student Directory" style="width:100%; border-radius:10px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); transition: transform 0.3s;" onmouseover="this.style.transform='scale(1.03)'" onmouseout="this.style.transform='scale(1)'">
+    </a>
+    <!-- Grading Engine -->
+    <a href="screenshots/Grading_engine.png" target="_blank">
+      <img src="screenshots/Grading_engine.png" alt="Grading Engine" style="width:100%; border-radius:10px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); transition: transform 0.3s;" onmouseover="this.style.transform='scale(1.03)'" onmouseout="this.style.transform='scale(1)'">
+    </a>
+    <!-- Report Preview -->
+    <a href="screenshots/Preview_report.png" target="_blank">
+      <img src="screenshots/Preview_report.png" alt="Report Preview" style="width:100%; border-radius:10px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); transition: transform 0.3s;" onmouseover="this.style.transform='scale(1.03)'" onmouseout="this.style.transform='scale(1)'">
+    </a>
+    <!-- Edit Report -->
+    <a href="screenshots/Edit_student_profile.png" target="_blank">
+      <img src="screenshots/Edit_student_profile.png" alt="Edit Report" style="width:100%; border-radius:10px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); transition: transform 0.3s;" onmouseover="this.style.transform='scale(1.03)'" onmouseout="this.style.transform='scale(1)'">
+    </a>
+    <!-- Analytics -->
+    <a href="screenshots/Analysis.png" target="_blank">
+      <img src="screenshots/Analysis.png" alt="Analytics" style="width:100%; border-radius:10px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); transition: transform 0.3s;" onmouseover="this.style.transform='scale(1.03)'" onmouseout="this.style.transform='scale(1)'">
+    </a>
+    <!-- Add more screenshots here if needed -->
+  </div>
+</details>
 
 ## 🛠️ Tech Stack
 
-```
-Frontend   →  HTML5, CSS3, JavaScript (Vanilla)
-Styling    →  Custom CSS  |  Responsive Layout
-Data       →  Client-side structured data management
-Logic      →  Auto-grade calculation engine (JavaScript)
-Icons      →  Emoji-based  |  Unicode symbols
-Hosting    →  Browser-based  (no server required)
-```
-
----
-
-## 🚀 Getting Started
-
-### Prerequisites
-- Any modern web browser (Chrome, Firefox, Edge, Safari)
-- No installation or server setup required
-
-### Run Locally
-
-```bash
-# 1. Clone the repository
-git clone https://github.com/programmingpioneer/GradeManager.git
-
-# 2. Navigate into the project folder
-cd GradeManager
-
-# 3. Open in your browser
-# Simply double-click index.html
-# OR right-click → Open with → Browser
-```
-
-> ✅ That's it. No npm, no build tools, no dependencies.
-
-### Default Login Credentials
-```
-Username : admin
-Password : admin123
-```
-> Students are auto-assigned the default password `admin123` which they can change on first login.
-
----
-
-## 📁 Project Structure
-
-```
-GradeManager/
-│
-├── index.html              # Login / Entry point
-├── dashboard.html          # Admin Dashboard
-├── add-user.html           # Add New Student / Teacher
-├── directory.html          # System Directory (student list)
-├── student-profile.html    # Individual Student Profile
-├── grading-engine.html     # Auto-Grading Engine
-├── edit-report.html        # Edit Report Card
-├── analytics.html          # Performance Analysis
-│
-├── css/
-│   ├── style.css           # Global styles
-│   ├── sidebar.css         # Navigation sidebar
-│   └── components.css      # Cards, tables, forms
-│
-├── js/
-│   ├── data.js             # Student data management
-│   ├── grader.js           # Grade calculation logic
-│   ├── auth.js             # Login / logout handling
-│   └── analytics.js        # Stats and leaderboard logic
-│
-├── screenshots/            # Project screenshots for README
-│   ├── Dashboard.png
-│   ├── Add_New_user.png
-│   ├── Student_profile.png
-│   ├── Grading_engine.png
-│   ├── Edit_student_profile.png
-│   └── Analysis.png
-│
-└── README.md
-```
-
----
-
-## 📐 Grade Scale
-
-The system uses the following academic grading criteria:
-
-| Percentage Range | Letter Grade | Status |
-|:---:|:---:|:---:|
-| 90% – 100% | **A+** | ✅ Pass |
-| 80% – 89% | **A** | ✅ Pass |
-| 75% – 79% | **B+** | ✅ Pass |
-| 70% – 74% | **B** | ✅ Pass |
-| 65% – 69% | **C+** | ✅ Pass |
-| 60% – 64% | **C** | ✅ Pass |
-| 50% – 59% | **D** | ✅ Pass |
-| Below 50% | **F** | ❌ Fail |
-
----
-
-## 📚 Subjects Covered
-
-The grading engine supports the following subjects (customizable):
-
-`English` · `Urdu` · `Mathematics` · `Physics` · `Computer Science` · `Programming` · `Database Systems`
-
----
-
-## 🤝 Contributing
-
-Contributions, issues, and feature requests are welcome!
-
-```bash
-# Fork the repo
-# Create your feature branch
-git checkout -b feature/YourFeatureName
-
-# Commit your changes
-git commit -m "Add: YourFeatureName"
-
-# Push to the branch
-git push origin feature/YourFeatureName
-
-# Open a Pull Request
-```
+| Category | Technology |
+|---|---|
+| **Backend** | Python 3, Flask, SQLAlchemy |
+| **Database** | SQLite (local), MySQL (local), PostgreSQL (Render) |
+| **Frontend** | HTML5, CSS3, Bootstrap 5, Vanilla JavaScript |
+| **Responsive Design** | CSS Grid, Flexbox, Media Queries, Bootstrap Offcanvas |
+| **Extras** | Dark Mode (localStorage), Font Awesome (via CDN), Google Fonts |
 
 ---
 
@@ -236,11 +235,11 @@ git push origin feature/YourFeatureName
 
 <div align="center">
 
-<img src="https://avatars.githubusercontent.com/programmingpioneer" width="90" style="border-radius:50%"/>
+<img src="https://github.com/programmingpioneer.png" width="90" style="border-radius:50%"/>
 
 ### **Sufyan Khan**
-*F.Sc Computer Science (Grade A) · Aspiring Software Engineer*  
-*Sakhakot, Malakand, Khyber Pakhtunkhwa, Pakistan*
+*F.Sc Student · Aspiring Software Engineer*  
+*Malakand, Khyber Pakhtunkhwa, Pakistan*
 
 [![GitHub](https://img.shields.io/badge/GitHub-programmingpioneer-181717?style=flat-square&logo=github)](https://github.com/programmingpioneer)
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-Sufyan%20Khan-0A66C2?style=flat-square&logo=linkedin)](https://www.linkedin.com/in/sufyan-khan-12321b340)
@@ -251,23 +250,25 @@ git push origin feature/YourFeatureName
 
 </div>
 
----
+## 🚀 Getting Started
 
-## 📄 License
+### Prerequisites
+- Python 3.8+
+- pip (Python package manager)
 
-This project is licensed under the **MIT License** — see the [LICENSE](LICENSE) file for details.
+### Local Setup
 
-```
-MIT License — Free to use, modify, and distribute with attribution.
-© 2026 Sufyan Khan | github.com/programmingpioneer
-```
+```bash
+# 1. Clone the repository
+git clone https://github.com/programmingpioneer/Grade-Management-System.git
+cd Grade-Management-System
 
----
+# 2. (Optional) Create and activate a virtual environment
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
 
-<div align="center">
+# 3. Install dependencies
+pip install -r requirements.txt
 
-⭐ **If this project helped you, give it a star — it means a lot!** ⭐
-
-Made with ❤️ from Malakand, KPK, Pakistan
-
-</div>
+# 4. Run the application
+python app.py
