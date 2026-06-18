@@ -1,6 +1,6 @@
-/* ---------- Sidebar styling (used both in offcanvas and desktop sidebar) ---------- */
+/* ---------- Sidebar styling ---------- */
 .sidebar-bg {
-    background-color: #1e2a3a;  /* Deep dark blue */
+    background-color: #1e2a3a;
     background-image: linear-gradient(180deg, #2c3e50 0%, #1a252f 100%);
 }
 
@@ -46,11 +46,6 @@
     overflow-x: auto;
 }
 
-/* ---------- Login page (unchanged, already responsive) ---------- */
-body.login-bg {
-    background-color: #f4f6f9;
-}
-
 /* ---------- Utilities ---------- */
 @media (max-width: 576px) {
     h2.display-6 {
@@ -58,7 +53,227 @@ body.login-bg {
     }
 }
 
-/* Offcanvas custom width */
 .offcanvas-start {
     width: 280px !important;
+}
+
+/* ========== DARK MODE OVERRIDES (comprehensive) ========== */
+[data-bs-theme="dark"] {
+    /* ---------- Body & text ---------- */
+    background-color: #1a1a2e !important;
+    color: #e0e0e0;
+}
+
+[data-bs-theme="dark"] body {
+    background-color: #1a1a2e !important;
+    color: #e0e0e0;
+}
+
+/* ---------- Headings & text ---------- */
+[data-bs-theme="dark"] h1, [data-bs-theme="dark"] h2, [data-bs-theme="dark"] h3,
+[data-bs-theme="dark"] h4, [data-bs-theme="dark"] h5, [data-bs-theme="dark"] h6,
+[data-bs-theme="dark"] .text-dark, [data-bs-theme="dark"] .text-muted {
+    color: #e0e0e0 !important;
+}
+
+[data-bs-theme="dark"] .text-primary {
+    color: #90caf9 !important;
+}
+
+[data-bs-theme="dark"] .text-warning {
+    color: #ffb74d !important;
+}
+
+/* ---------- Sidebar ---------- */
+[data-bs-theme="dark"] .sidebar-bg {
+    background: #0f0f1a !important;
+    background-image: linear-gradient(180deg, #1a1a2e 0%, #0f0f1a 100%) !important;
+}
+
+[data-bs-theme="dark"] .pro-nav-link {
+    color: #b0bec5 !important;
+}
+[data-bs-theme="dark"] .pro-nav-link:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* ---------- Cards ---------- */
+[data-bs-theme="dark"] .card {
+    background-color: #16213e;
+    color: #e0e0e0;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+}
+
+[data-bs-theme="dark"] .card-header {
+    background-color: #0f3460;
+    color: #ffffff;
+    border-bottom-color: #334155;
+}
+
+/* ---------- Tables ---------- */
+[data-bs-theme="dark"] .table {
+    --bs-table-bg: #16213e;
+    --bs-table-color: #e0e0e0;
+    --bs-table-border-color: #334155;
+}
+
+[data-bs-theme="dark"] .table-light {
+    --bs-table-bg: #0f3460;
+    --bs-table-color: #ffffff;
+}
+
+[data-bs-theme="dark"] .table-hover tbody tr:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+/* ---------- Forms (inputs, selects, labels) ---------- */
+[data-bs-theme="dark"] .form-control,
+[data-bs-theme="dark"] .form-select {
+    background-color: #16213e;
+    color: #e0e0e0;
+    border-color: #334155;
+}
+
+[data-bs-theme="dark"] .form-control:focus,
+[data-bs-theme="dark"] .form-select:focus {
+    background-color: #1a2745;
+    color: #ffffff;
+    border-color: #f39c12;
+    box-shadow: 0 0 0 0.2rem rgba(243, 156, 18, 0.25);
+}
+
+[data-bs-theme="dark"] .form-label,
+[data-bs-theme="dark"] label {
+    color: #e0e0e0;
+}
+
+[data-bs-theme="dark"] .form-check-label {
+    color: #e0e0e0;
+}
+
+/* ---------- Buttons ---------- */
+[data-bs-theme="dark"] .btn-outline-secondary {
+    color: #ccc;
+    border-color: #666;
+}
+[data-bs-theme="dark"] .btn-outline-secondary:hover {
+    background-color: #444;
+    color: white;
+}
+
+[data-bs-theme="dark"] .btn-outline-primary {
+    color: #90caf9;
+    border-color: #90caf9;
+}
+[data-bs-theme="dark"] .btn-outline-primary:hover {
+    background-color: rgba(144, 202, 249, 0.1);
+    color: #ffffff;
+}
+
+[data-bs-theme="dark"] .btn-outline-info {
+    color: #80deea;
+    border-color: #80deea;
+}
+[data-bs-theme="dark"] .btn-outline-info:hover {
+    background-color: rgba(128, 222, 234, 0.1);
+    color: #ffffff;
+}
+
+[data-bs-theme="dark"] .btn-outline-danger {
+    color: #ef9a9a;
+    border-color: #ef9a9a;
+}
+[data-bs-theme="dark"] .btn-outline-danger:hover {
+    background-color: rgba(239, 154, 154, 0.1);
+    color: #ffffff;
+}
+
+/* ---------- Alerts ---------- */
+[data-bs-theme="dark"] .alert-info {
+    background-color: #0d3b66;
+    color: #e0e0e0;
+    border-color: #0f4c75;
+}
+[data-bs-theme="dark"] .alert-success {
+    background-color: #1b4332;
+    color: #e0e0e0;
+    border-color: #2d6a4f;
+}
+[data-bs-theme="dark"] .alert-warning {
+    background-color: #4a3f0d;
+    color: #ffe082;
+    border-color: #7a6a00;
+}
+[data-bs-theme="dark"] .alert-danger {
+    background-color: #4a1525;
+    color: #ef9a9a;
+    border-color: #7a1c3d;
+}
+
+/* ---------- Badges ---------- */
+[data-bs-theme="dark"] .badge {
+    color: #ffffff;
+}
+[data-bs-theme="dark"] .badge.bg-light {
+    color: #1a1a2e !important;
+}
+
+/* ---------- List groups ---------- */
+[data-bs-theme="dark"] .list-group-item {
+    background-color: #16213e;
+    color: #e0e0e0;
+    border-color: #334155;
+}
+
+/* ---------- Modals ---------- */
+[data-bs-theme="dark"] .modal-content {
+    background-color: #16213e;
+    color: #e0e0e0;
+    border: 1px solid #334155;
+}
+[data-bs-theme="dark"] .modal-header {
+    border-bottom-color: #334155;
+}
+[data-bs-theme="dark"] .modal-footer {
+    border-top-color: #334155;
+}
+
+/* ---------- Offcanvas ---------- */
+[data-bs-theme="dark"] .offcanvas {
+    background-color: #0f0f1a;
+    color: #e0e0e0;
+}
+
+/* ---------- Horizontal rules ---------- */
+[data-bs-theme="dark"] hr {
+    border-color: #334155;
+}
+
+/* ---------- Navigation (mobile header) ---------- */
+[data-bs-theme="dark"] .d-lg-none.bg-dark {
+    background-color: #0f0f1a !important;
+}
+
+/* ---------- Specific dark mode fixes for your custom pages ---------- */
+[data-bs-theme="dark"] .student-link {
+    color: #90caf9 !important;
+}
+
+[data-bs-theme="dark"] .badge-soft {
+    background-color: #334155;
+    color: #e0e0e0;
+}
+
+[data-bs-theme="dark"] .info-row {
+    border-bottom-color: #334155;
+}
+
+[data-bs-theme="dark"] .btn-action {
+    background-color: #0f172a;
+    border-color: #334155;
+    color: #e0e0e0;
+}
+[data-bs-theme="dark"] .btn-action:hover {
+    background-color: #1e293b;
+    border-color: #475569;
 }

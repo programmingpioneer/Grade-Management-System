@@ -323,7 +323,6 @@ def analysis_dashboard():
                            avg_perc=avg_percentage,
                            top_students=top_students)
 
-
 @app.route('/debug')
 def debug_view():
     # Sirf admin dekh sakta hai
@@ -365,6 +364,11 @@ def debug_view():
     <p><a href="/">Go to Dashboard</a></p>
     """
     return html
+
+# ----------------- ABOUT (NEW) -----------------
+@app.route('/about')
+def about():
+    return render_template('about.html')
 
 if __name__ == '__main__':
     app.run(debug=True)

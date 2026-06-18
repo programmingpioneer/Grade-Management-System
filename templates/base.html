@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-bs-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,7 +15,6 @@
             <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body d-flex flex-column p-3">
-            <!-- Same links as desktop sidebar -->
             <ul class="nav flex-column mb-auto w-100">
                 <li class="nav-item">
                     <a href="/" class="nav-link pro-nav-link">🏠 <span class="ms-2">Dashboard</span></a>
@@ -29,11 +28,18 @@
                 <li class="nav-item mt-2">
                     <a href="/analysis" class="nav-link pro-nav-link text-warning">📊 <span class="ms-2">Analytics</span></a>
                 </li>
+                <!-- About Developer Link -->
+                <li class="nav-item mt-2">
+                    <a href="/about" class="nav-link pro-nav-link">👤 <span class="ms-2">About Developer</span></a>
+                </li>
             </ul>
             <div class="mt-auto">
                 <hr class="border-secondary opacity-25">
+                <!-- Dark Mode Toggle for Mobile -->
+                <button id="darkModeToggleMobile" class="btn btn-sm btn-outline-light w-100 mb-2">
+                    🌙 Dark Mode
+                </button>
                 <a href="/logout" class="nav-link pro-nav-link logout-btn text-danger">🚪 <span class="ms-2">Secure Logout</span></a>
-                <!-- Developer credit (hidden on extra small screens to save space) -->
                 <div class="text-center mt-3 d-none d-sm-block">
                     <img src="https://github.com/programmingpioneer.png" alt="Sufyan Khan" class="rounded-circle mb-2 shadow-sm" style="width: 45px; height: 45px; border: 2px solid #f39c12;">
                     <p class="text-muted mb-0" style="font-size: 0.65rem;">Architected by</p>
@@ -44,10 +50,10 @@
         </div>
     </div>
 
-    <!-- Main layout: sidebar for large screens + offcanvas toggle for mobile -->
+    <!-- Main layout -->
     <div class="container-fluid">
         <div class="row">
-            <!-- Desktop fixed sidebar (hidden below lg) -->
+            <!-- Desktop fixed sidebar -->
             <nav class="col-lg-2 d-none d-lg-block sidebar-bg vh-100 sticky-top p-3">
                 <div class="text-center mb-4 mt-2">
                     <h4 class="fw-bolder text-white">Grade<span class="text-warning">Manager</span></h4>
@@ -67,9 +73,17 @@
                     <li class="nav-item mt-2">
                         <a href="/analysis" class="nav-link pro-nav-link text-warning">📊 <span class="ms-2">Analytics</span></a>
                     </li>
+                    <!-- About Developer Link -->
+                    <li class="nav-item mt-2">
+                        <a href="/about" class="nav-link pro-nav-link">👤 <span class="ms-2">About Developer</span></a>
+                    </li>
                 </ul>
                 <div class="mt-auto pt-3">
                     <hr class="border-secondary opacity-25">
+                    <!-- Dark Mode Toggle for Desktop -->
+                    <button id="darkModeToggle" class="btn btn-sm btn-outline-light w-100 mb-2">
+                        🌙 Dark Mode
+                    </button>
                     <a href="/logout" class="nav-link pro-nav-link logout-btn text-danger">🚪 <span class="ms-2">Secure Logout</span></a>
                     <div class="text-center mt-4 d-none d-xl-block">
                         <img src="https://github.com/programmingpioneer.png" alt="Sufyan Khan" class="rounded-circle mb-2 shadow-sm" style="width: 50px; height: 50px; border: 2px solid #f39c12;">
@@ -83,7 +97,7 @@
                 </div>
             </nav>
 
-            <!-- Mobile header with toggle button (visible only below lg) -->
+            <!-- Mobile header -->
             <div class="d-lg-none bg-dark text-white p-2 d-flex align-items-center justify-content-between">
                 <button class="btn btn-outline-light btn-sm" data-bs-toggle="offcanvas" data-bs-target="#sidebarOffcanvas">
                     ☰ Menu
@@ -100,5 +114,40 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Dark Mode Logic -->
+    <script>
+    (function() {
+        const html = document.documentElement;
+        const toggleBtns = [
+            document.getElementById('darkModeToggle'),
+            document.getElementById('darkModeToggleMobile')
+        ];
+
+        function setTheme(mode) {
+            html.setAttribute('data-bs-theme', mode);
+            localStorage.setItem('theme', mode);
+            toggleBtns.forEach(btn => {
+                if (btn) btn.innerHTML = mode === 'dark' ? '☀️ Light Mode' : '🌙 Dark Mode';
+            });
+        }
+
+        // Load saved theme
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+            setTheme(savedTheme);
+        } else {
+            // Default light
+            html.setAttribute('data-bs-theme', 'light');
+        }
+
+        toggleBtns.forEach(btn => {
+            if (!btn) return;
+            btn.addEventListener('click', () => {
+                const current = html.getAttribute('data-bs-theme');
+                setTheme(current === 'dark' ? 'light' : 'dark');
+            });
+        });
+    })();
+    </script>
 </body>
 </html>
