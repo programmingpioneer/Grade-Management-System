@@ -1,6 +1,5 @@
 from database import db
 
-
 class Student(db.Model):
     __tablename__ = 'students'
     id = db.Column(db.Integer, primary_key=True)
@@ -20,10 +19,12 @@ class Grade(db.Model):
     student_id = db.Column(db.Integer, db.ForeignKey('students.id'), nullable=False)
     subject = db.Column(db.String(50), nullable=False)
     marks = db.Column(db.Integer, nullable=False)
+    grade = db.Column(db.String(5), nullable=False)   # ✅ Added missing grade letter
+
+    # Relationship
+    student = db.relationship('Student', backref='grades')
 
 class ReportCard(db.Model):
-    # ... saare columns ...
-    student = db.relationship('Student', backref='report_cards')
     __tablename__ = 'report_cards'
     id = db.Column(db.Integer, primary_key=True)
     student_id = db.Column(db.Integer, db.ForeignKey('students.id'), nullable=False)
@@ -41,9 +42,6 @@ class ReportCard(db.Model):
     percentage = db.Column(db.Float, default=0.0)
     grade = db.Column(db.String(10))
     remarks = db.Column(db.String(100))
-    
 
-    # ✅ YEH LINE ADD KARO – Relationship back to Student
+    # Relationship
     student = db.relationship('Student', backref='report_cards')
-
-    

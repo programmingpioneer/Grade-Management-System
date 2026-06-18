@@ -3,12 +3,31 @@
 {% block title %}Assign Grade - Grade Manager{% endblock %}
 
 {% block content %}
-<div class="d-flex justify-content-between align-items-center mb-4">
-    <h2 class="text-dark">Assign Grade to <span class="text-primary">{{ student.name }}</span></h2>
-    <a href="/students" class="btn btn-outline-secondary fw-bold">← Cancel</a>
+<style>
+    @media (max-width: 576px) {
+        .assign-card {
+            padding: 1.5rem !important;
+            border-radius: 12px !important;
+        }
+        .assign-card input,
+        .assign-card select {
+            font-size: 1rem; /* prevents iOS zoom */
+            padding: 0.6rem;
+        }
+    }
+</style>
+
+<!-- Top back button -->
+<div class="mb-3">
+    <a href="/students" class="btn btn-outline-secondary btn-sm fw-bold">← Back to Directory</a>
 </div>
 
-<div class="card p-4 shadow-sm border-0" style="max-width: 500px;">
+<div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+    <h2 class="text-dark fw-bold">Assign Grade to <span class="text-primary">{{ student.name }}</span></h2>
+    <a href="/students" class="btn btn-outline-secondary fw-bold">Cancel</a>
+</div>
+
+<div class="card p-4 p-md-4 shadow-sm border-0 assign-card" style="max-width: 500px; margin: auto;">
     <form method="POST" action="/assign_grade/{{ student.id }}">
         
         <div class="mb-3">
@@ -32,7 +51,7 @@
             </select>
         </div>
 
-        <button type="submit" class="btn btn-success w-100 fw-bold">Save Grade</button>
+        <button type="submit" class="btn btn-success w-100 fw-bold py-2" style="font-size: 1.05rem;">💾 Save Grade</button>
         
     </form>
 </div>

@@ -2,8 +2,32 @@
 {% block title %}Edit Report Card{% endblock %}
 
 {% block content %}
-<div class="card p-4 shadow-sm border-0 rounded-4" style="max-width: 800px; margin: auto;">
-    <div class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-3">
+<style>
+    @media (max-width: 576px) {
+        .edit-card {
+            padding: 1.5rem !important;
+            border-radius: 12px !important;
+        }
+        .edit-card h3 {
+            font-size: 1.4rem;
+        }
+        .edit-card input,
+        .edit-card select {
+            font-size: 1rem; /* prevents iOS zoom */
+            padding: 0.6rem;
+        }
+    }
+</style>
+
+<!-- Back to student profile link -->
+<div class="mb-3">
+    <a href="/student/{{ report.student_id }}" class="btn btn-outline-secondary btn-sm fw-bold">
+        ← Back to Student Profile
+    </a>
+</div>
+
+<div class="card p-4 p-md-4 shadow-sm border-0 rounded-4 edit-card" style="max-width: 800px; margin: auto;">
+    <div class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-3 flex-wrap gap-2">
         <h3 class="text-dark fw-bold mb-0">✏️ Edit Report Card</h3>
         <a href="/student/{{ report.student_id }}" class="btn btn-outline-secondary fw-bold">Cancel</a>
     </div>
@@ -16,7 +40,7 @@
         
         <h5 class="text-primary border-bottom pb-2 mt-4">1. Attendance Data</h5>
         <div class="row mb-4">
-            <div class="col-md-6">
+            <div class="col-md-6 mb-3 mb-md-0">
                 <label class="form-label fw-bold">Total Academic Days</label>
                 <input type="number" name="total_days" class="form-control" value="{{ report.total_days }}" required>
             </div>
@@ -28,16 +52,39 @@
 
         <h5 class="text-primary border-bottom pb-2">2. Subject Marks (Out of 100)</h5>
         <div class="row mb-4">
-            <div class="col-md-4 mb-3"><label class="fw-bold">English</label><input type="number" name="eng" class="form-control" max="100" value="{{ report.eng }}" required></div>
-            <div class="col-md-4 mb-3"><label class="fw-bold">Urdu</label><input type="number" name="urdu" class="form-control" max="100" value="{{ report.urdu }}" required></div>
-            <div class="col-md-4 mb-3"><label class="fw-bold">Mathematics</label><input type="number" name="math" class="form-control" max="100" value="{{ report.math }}" required></div>
-            <div class="col-md-4 mb-3"><label class="fw-bold">Physics</label><input type="number" name="phy" class="form-control" max="100" value="{{ report.phy }}" required></div>
-            <div class="col-md-4 mb-3"><label class="fw-bold">Computer Science</label><input type="number" name="cs" class="form-control" max="100" value="{{ report.cs }}" required></div>
-            <div class="col-md-4 mb-3"><label class="fw-bold">Programming</label><input type="number" name="prog" class="form-control" max="100" value="{{ report.prog }}" required></div>
-            <div class="col-md-4 mb-3"><label class="fw-bold">Database Systems</label><input type="number" name="db_sys" class="form-control" max="100" value="{{ report.db_sys }}" required></div>
+            <div class="col-md-4 col-6 mb-3">
+                <label class="fw-bold">English</label>
+                <input type="number" name="eng" class="form-control" max="100" value="{{ report.eng }}" required>
+            </div>
+            <div class="col-md-4 col-6 mb-3">
+                <label class="fw-bold">Urdu</label>
+                <input type="number" name="urdu" class="form-control" max="100" value="{{ report.urdu }}" required>
+            </div>
+            <div class="col-md-4 col-6 mb-3">
+                <label class="fw-bold">Mathematics</label>
+                <input type="number" name="math" class="form-control" max="100" value="{{ report.math }}" required>
+            </div>
+            <div class="col-md-4 col-6 mb-3">
+                <label class="fw-bold">Physics</label>
+                <input type="number" name="phy" class="form-control" max="100" value="{{ report.phy }}" required>
+            </div>
+            <div class="col-md-4 col-6 mb-3">
+                <label class="fw-bold">Computer Science</label>
+                <input type="number" name="cs" class="form-control" max="100" value="{{ report.cs }}" required>
+            </div>
+            <div class="col-md-4 col-6 mb-3">
+                <label class="fw-bold">Programming</label>
+                <input type="number" name="prog" class="form-control" max="100" value="{{ report.prog }}" required>
+            </div>
+            <div class="col-md-4 col-6 mb-3">
+                <label class="fw-bold">Database Systems</label>
+                <input type="number" name="db_sys" class="form-control" max="100" value="{{ report.db_sys }}" required>
+            </div>
         </div>
 
-        <button type="submit" class="btn btn-warning w-100 fw-bold text-dark fs-5">Update Record & Recalculate</button>
+        <button type="submit" class="btn btn-warning w-100 fw-bold text-dark py-2" style="font-size: 1.05rem;">
+            🔄 Update Record & Recalculate
+        </button>
     </form>
 </div>
 {% endblock %}

@@ -1,35 +1,20 @@
 import os
 import random
-from flask import Flask, render_template, request, redirect, url_for, session
-from database import db
+from flask import Flask, render_template, request, redirect, url_for, session, abort
+from database import db, init_db
 from models import Student, Grade, ReportCard
 from sqlalchemy import func
-
-# 🔥 Base directory ka absolute path
-basedir = os.path.abspath(os.path.dirname(__file__))
 
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
 
-# 🚀 CLOUD VS LOCAL ADAPTIVE DATABASE PROTOCOL
-if os.getenv('RENDER'):
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'grade_manager_cloud.db')
-else:
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:Root123@localhost/grade_manager_db'
+# ---------- DATABASE SETUP (centralized) ----------
+init_db(app)
 
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
-# 🔌 ENGINE KI MAIN WIRE (ISAY DELETE NAHI KARNA)
-db.init_app(app)
-
-# 🛑 YEH WALI LINES DOBARE CHECK KARO, AGAR MISSING HAIN TO LAZMI DALO!
+# ---------- AUTO-SEED ADMIN ----------
 with app.app_context():
-    db.create_all()
-    
-    # 🚀 AUTO-SEED: Permanent admin injection for ephemeral clouds
-    admin_exists = Student.query.filter_by(username='admin').first()
-    if not admin_exists:
-        ghost_admin = Student(
+    if not Student.query.filter_by(username='admin').first():
+        admin = Student(
             student_id_code='000000',
             name='Master Admin',
             father_name='System',
@@ -40,29 +25,17 @@ with app.app_context():
             qualifications='Root',
             password='admin123'
         )
-        db.session.add(ghost_admin)
+        db.session.add(admin)
         db.session.commit()
-        print("MASSIVE W: Admin auto-injected!")
+        print("✅ Default admin injected.")
 
-
-    
-    # 🚀 AUTO-SEED: Permanent admin injection for ephemeral clouds
-    admin_exists = Student.query.filter_by(username='admin').first()
-    if not admin_exists:
-        ghost_admin = Student(
-            student_id_code='000000',
-            name='Master Admin',
-            father_name='System',
-            role='admin',
-            username='admin',
-            email='admin@system.com',
-            contact='00000000000',
-            qualifications='Root',
-            password='admin123'
-        )
-        db.session.add(ghost_admin)
-        db.session.commit()
-        print("MASSIVE W: Admin auto-injected!")
+# ---------- AUTH CHECK ----------
+@app.before_request
+def require_login():
+    if request.endpoint in ('login', 'logout') or request.path.startswith('/static'):
+        return
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
 
 # ----------------- LOGIN -----------------
 @app.route('/login', methods=['GET', 'POST'])
@@ -77,8 +50,7 @@ def login():
             session['user_name'] = user.name
             session['user_role'] = user.role
             return redirect(url_for('index'))
-        else:
-            error = "Invalid Username or Password!"
+        error = "Invalid Username or Password!"
     return render_template('login.html', error=error)
 
 @app.route('/logout')
@@ -89,8 +61,6 @@ def logout():
 # ----------------- DASHBOARD -----------------
 @app.route('/')
 def index():
-    if 'user_id' not in session:
-        return redirect(url_for('login'))
     total_students = Student.query.filter_by(role='student').count()
     total_teachers = Student.query.filter_by(role='teacher').count()
     recent_activities = ReportCard.query.order_by(ReportCard.id.desc()).limit(5).all()
@@ -102,16 +72,12 @@ def index():
 # ----------------- STUDENT DIRECTORY -----------------
 @app.route('/students')
 def manage_students():
-    if 'user_id' not in session:
-        return redirect(url_for('login'))
     all_users = Student.query.all()
     return render_template('students.html', users=all_users)
 
 # ----------------- ADD NEW USER -----------------
 @app.route('/add_user', methods=['GET', 'POST'])
 def add_user():
-    if 'user_id' not in session:
-        return redirect(url_for('login'))
     if request.method == 'POST':
         name = request.form.get('name')
         role = request.form.get('role')
@@ -121,7 +87,6 @@ def add_user():
         contact = request.form.get('contact')
         qualifications = request.form.get('qualifications')
 
-        # Generate unique 6-digit student ID
         while True:
             code = str(random.randint(100000, 999999))
             if not Student.query.filter_by(student_id_code=code).first():
@@ -146,22 +111,25 @@ def add_user():
 # ----------------- GRADING DASHBOARD -----------------
 @app.route('/grading_dashboard')
 def grading_dashboard():
-    if 'user_id' not in session:
-        return redirect(url_for('login'))
     all_students = Student.query.filter_by(role='student').all()
     return render_template('grading_form.html', students=all_students)
 
 # ----------------- PREVIEW REPORT -----------------
 @app.route('/preview_report', methods=['POST'])
 def preview_report():
-    if 'user_id' not in session:
-        return redirect(url_for('login'))
-
     student_id = request.form.get('student_id')
     student = Student.query.get(student_id)
+    if not student:
+        return "Student not found.", 404
 
     total_days = int(request.form.get('total_days') or 1)
     attended_days = int(request.form.get('attended_days') or 0)
+
+    if total_days <= 0:
+        total_days = 1
+    if attended_days > total_days:
+        attended_days = total_days
+
     attendance_perc = round((attended_days / total_days) * 100, 2)
 
     eng = int(request.form.get('eng') or 0)
@@ -174,7 +142,7 @@ def preview_report():
 
     obtained = eng + urdu + math + phy + cs + prog + db_sys
     total = 700
-    percentage = round((obtained / total) * 100, 2)
+    percentage = round((obtained / total) * 100, 2) if total > 0 else 0
 
     if percentage >= 90:
         grade, remarks = 'O', 'Outstanding'
@@ -203,9 +171,6 @@ def preview_report():
 # ----------------- SAVE REPORT -----------------
 @app.route('/save_report', methods=['POST'])
 def save_report():
-    if 'user_id' not in session:
-        return redirect(url_for('login'))
-
     new_report = ReportCard(
         student_id=request.form.get('student_id'),
         total_days=request.form.get('total_days'),
@@ -227,20 +192,15 @@ def save_report():
     db.session.commit()
     return redirect(url_for('manage_students'))
 
-# ----------------- STUDENT PROFILE (FULL PAGE) -----------------
+# ----------------- STUDENT PROFILE -----------------
 @app.route('/student/<int:id>')
 def student_profile(id):
-    if 'user_id' not in session:
-        return redirect(url_for('login'))
     student = Student.query.get_or_404(id)
-    return render_template('student.html', student=student)
+    return render_template('student_profile.html', student=student)
 
-# ----------------- JSON API FOR MODAL -----------------
+# ----------------- JSON API -----------------
 @app.route('/api/student/<int:id>')
 def api_student(id):
-    if 'user_id' not in session:
-        return {'error': 'Unauthorized'}, 401
-
     student = Student.query.get(id)
     if not student:
         return {'error': 'Student not found'}, 404
@@ -272,19 +232,15 @@ def api_student(id):
 # ----------------- DELETE REPORT -----------------
 @app.route('/delete_report/<int:report_id>', methods=['POST'])
 def delete_report(report_id):
-    if 'user_id' not in session:
-        return redirect(url_for('login'))
     report = ReportCard.query.get_or_404(report_id)
     student_id = report.student_id
     db.session.delete(report)
     db.session.commit()
     return redirect(url_for('student_profile', id=student_id))
 
-# ----------------- EDIT REPORT (GET + POST) -----------------
+# ----------------- EDIT REPORT -----------------
 @app.route('/edit_report/<int:report_id>', methods=['GET', 'POST'])
 def edit_report(report_id):
-    if 'user_id' not in session:
-        return redirect(url_for('login'))
     report = ReportCard.query.get_or_404(report_id)
 
     if request.method == 'POST':
@@ -301,7 +257,7 @@ def edit_report(report_id):
         report.obtained_marks = (report.eng + report.urdu + report.math +
                                  report.phy + report.cs + report.prog + report.db_sys)
         report.total_marks = 700
-        report.percentage = round((report.obtained_marks / report.total_marks) * 100, 2)
+        report.percentage = round((report.obtained_marks / report.total_marks) * 100, 2) if report.total_marks > 0 else 0
 
         if report.percentage >= 90:
             report.grade, report.remarks = 'O', 'Outstanding'
@@ -321,12 +277,30 @@ def edit_report(report_id):
 
     return render_template('edit_report.html', report=report)
 
+# ----------------- ASSIGN GRADE -----------------
+@app.route('/assign_grade/<int:student_id>', methods=['GET', 'POST'])
+def assign_grade(student_id):
+    student = Student.query.get_or_404(student_id)
+    if request.method == 'POST':
+        subject = request.form.get('subject')
+        marks = int(request.form.get('marks') or 0)
+        grade_letter = request.form.get('grade_letter')
+
+        new_grade = Grade(
+            student_id=student.id,
+            subject=subject,
+            marks=marks,
+            grade=grade_letter
+        )
+        db.session.add(new_grade)
+        db.session.commit()
+        return redirect(url_for('student_profile', id=student.id))
+
+    return render_template('assign_grade.html', student=student)
+
 # ----------------- SYSTEM ANALYSIS -----------------
 @app.route('/analysis')
 def analysis_dashboard():
-    if 'user_id' not in session:
-        return redirect(url_for('login'))
-
     total_reports = ReportCard.query.count()
     if total_reports == 0:
         return render_template('analysis.html', empty=True)

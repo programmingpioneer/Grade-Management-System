@@ -2,7 +2,29 @@
 {% block title %}Grading System{% endblock %}
 
 {% block content %}
-<div class="card p-4 shadow-sm border-0" style="max-width: 800px; margin: auto;">
+<style>
+    @media (max-width: 576px) {
+        .grading-card {
+            padding: 1.5rem !important;
+            border-radius: 12px !important;
+        }
+        .grading-card h3 {
+            font-size: 1.4rem;
+        }
+        .grading-card input,
+        .grading-card select {
+            font-size: 1rem; /* prevents iOS zoom */
+            padding: 0.6rem;
+        }
+    }
+</style>
+
+<!-- Top back link for easy navigation -->
+<div class="mb-3">
+    <a href="/" class="btn btn-outline-secondary btn-sm fw-bold">← Back to Dashboard</a>
+</div>
+
+<div class="card p-4 p-md-4 shadow-sm border-0 grading-card" style="max-width: 800px; margin: auto;">
     <h3 class="text-center fw-bold mb-4">🎓 Auto-Grading Engine</h3>
     
     <form method="POST" action="/preview_report">
@@ -19,7 +41,7 @@
 
         <h5 class="text-primary border-bottom pb-2">2. Attendance Data</h5>
         <div class="row mb-4">
-            <div class="col-md-6">
+            <div class="col-md-6 mb-3 mb-md-0">
                 <label class="form-label fw-bold">Total Academic Days</label>
                 <input type="number" name="total_days" class="form-control" required>
             </div>
@@ -31,16 +53,39 @@
 
         <h5 class="text-primary border-bottom pb-2">3. Subject Marks (Out of 100)</h5>
         <div class="row mb-4">
-            <div class="col-md-4 mb-3"><label>English</label><input type="number" name="eng" class="form-control" max="100" required></div>
-            <div class="col-md-4 mb-3"><label>Urdu</label><input type="number" name="urdu" class="form-control" max="100" required></div>
-            <div class="col-md-4 mb-3"><label>Mathematics</label><input type="number" name="math" class="form-control" max="100" required></div>
-            <div class="col-md-4 mb-3"><label>Physics</label><input type="number" name="phy" class="form-control" max="100" required></div>
-            <div class="col-md-4 mb-3"><label>Computer Science</label><input type="number" name="cs" class="form-control" max="100" required></div>
-            <div class="col-md-4 mb-3"><label>Programming</label><input type="number" name="prog" class="form-control" max="100" required></div>
-            <div class="col-md-4 mb-3"><label>Database Systems</label><input type="number" name="db_sys" class="form-control" max="100" required></div>
+            <div class="col-md-4 col-6 mb-3">
+                <label class="form-label">English</label>
+                <input type="number" name="eng" class="form-control" max="100" required>
+            </div>
+            <div class="col-md-4 col-6 mb-3">
+                <label class="form-label">Urdu</label>
+                <input type="number" name="urdu" class="form-control" max="100" required>
+            </div>
+            <div class="col-md-4 col-6 mb-3">
+                <label class="form-label">Mathematics</label>
+                <input type="number" name="math" class="form-control" max="100" required>
+            </div>
+            <div class="col-md-4 col-6 mb-3">
+                <label class="form-label">Physics</label>
+                <input type="number" name="phy" class="form-control" max="100" required>
+            </div>
+            <div class="col-md-4 col-6 mb-3">
+                <label class="form-label">Computer Science</label>
+                <input type="number" name="cs" class="form-control" max="100" required>
+            </div>
+            <div class="col-md-4 col-6 mb-3">
+                <label class="form-label">Programming</label>
+                <input type="number" name="prog" class="form-control" max="100" required>
+            </div>
+            <div class="col-md-4 col-6 mb-3">
+                <label class="form-label">Database Systems</label>
+                <input type="number" name="db_sys" class="form-control" max="100" required>
+            </div>
         </div>
 
-        <button type="submit" class="btn btn-info w-100 fw-bold text-white">Generate Preview</button>
+        <button type="submit" class="btn btn-info w-100 fw-bold text-white py-2" style="font-size: 1.05rem;">
+            📋 Generate Preview
+        </button>
     </form>
 </div>
 {% endblock %}

@@ -8,12 +8,49 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     body { background: #f8fafc; font-family: 'Inter', sans-serif; }
-    .stat-card { border-radius: 12px; padding: 20px; color: white; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
-    .top-performers .list-group-item { display: flex; justify-content: space-between; align-items: center; }
+    .stat-card {
+      border-radius: 12px;
+      padding: 20px;
+      color: white;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+      height: 100%;
+    }
+    .top-performers .list-group-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    /* Mobile polish */
+    @media (max-width: 576px) {
+      .stat-card h1 {
+        font-size: 2rem;
+      }
+      .stat-card h5 {
+        font-size: 1rem;
+      }
+      .container {
+        padding-left: 0.75rem;
+        padding-right: 0.75rem;
+      }
+      .top-performers .list-group-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+      }
+      .top-performers .list-group-item .badge {
+        align-self: flex-start;
+      }
+    }
   </style>
 </head>
 <body>
   <div class="container py-4">
+    <!-- Top navigation -->
+    <div class="mb-3">
+      <a href="/" class="btn btn-outline-secondary btn-sm fw-bold">← Dashboard</a>
+      <a href="/grading_dashboard" class="btn btn-outline-primary btn-sm fw-bold ms-2">➕ New Report</a>
+    </div>
+
     <h2 class="mb-4 fw-bold">📊 System Analysis</h2>
     
     {% if empty %}
@@ -24,20 +61,20 @@
     {% else %}
       <!-- Stats Row -->
       <div class="row g-4 mb-4">
-        <div class="col-md-4">
+        <div class="col-12 col-md-4">
           <div class="stat-card bg-primary">
             <h5>Total Reports</h5>
             <h1 class="fw-bold">{{ total }}</h1>
           </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-12 col-md-4">
           <div class="stat-card bg-success">
             <h5>Pass Rate</h5>
             <h1 class="fw-bold">{{ pass_rate }}%</h1>
             <small>{{ passed }} passed, {{ failed }} failed</small>
           </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-12 col-md-4">
           <div class="stat-card bg-warning text-dark">
             <h5>Average Percentage</h5>
             <h1 class="fw-bold">{{ avg_perc }}%</h1>
@@ -45,7 +82,7 @@
         </div>
       </div>
 
-      <!-- Top Performers Table -->
+      <!-- Top Performers -->
       <div class="card shadow-sm">
         <div class="card-header bg-dark text-white">
           <h5 class="mb-0">🏆 Top 3 Performers</h5>
@@ -57,7 +94,7 @@
               <span class="fw-semibold">{{ report.student.name }}</span>
               <span class="text-muted ms-2">({{ report.student.student_id_code }})</span>
             </div>
-            <div>
+            <div class="mt-2 mt-md-0">
               <span class="badge bg-success fs-6">{{ report.percentage }}%</span>
               <span class="badge bg-info ms-1">{{ report.grade }}</span>
             </div>
@@ -67,9 +104,10 @@
       </div>
     {% endif %}
     
-    <div class="mt-4">
+    <!-- Bottom actions -->
+    <div class="mt-4 d-flex flex-wrap gap-2">
       <a href="/" class="btn btn-secondary">← Back to Dashboard</a>
-      <a href="/grading_dashboard" class="btn btn-primary ms-2">➕ Create New Report</a>
+      <a href="/grading_dashboard" class="btn btn-primary">➕ Create New Report</a>
     </div>
   </div>
 </body>

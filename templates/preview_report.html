@@ -2,55 +2,103 @@
 {% block title %}Report Preview{% endblock %}
 
 {% block content %}
-<div class="card p-5 shadow-lg border-0" style="max-width: 900px; margin: auto; background-color: white;">
+<style>
+    @media (max-width: 576px) {
+        .preview-card {
+            padding: 1.5rem !important;
+            border-radius: 12px !important;
+        }
+        .preview-card h2 {
+            font-size: 1.3rem;
+        }
+        .preview-card h5 {
+            font-size: 0.95rem;
+        }
+        .student-info .col-md-6 {
+            margin-bottom: 1rem;
+        }
+        .student-info .text-md-end {
+            text-align: left !important;
+        }
+        .action-buttons {
+            flex-direction: column;
+            gap: 0.5rem;
+            align-items: stretch !important;
+        }
+        .action-buttons .btn,
+        .action-buttons form {
+            width: 100%;
+        }
+        .action-buttons form button {
+            width: 100%;
+        }
+    }
+</style>
+
+<!-- Top back button for quick access -->
+<div class="mb-3">
+    <button onclick="history.back()" class="btn btn-outline-secondary fw-bold">← Back to Edit</button>
+</div>
+
+<div class="card p-4 p-md-5 shadow-lg border-0 preview-card" style="max-width: 900px; margin: auto; background-color: white;">
     
     <div class="text-center mb-4 border-bottom pb-3">
         <h2 class="fw-bold text-danger">Grade Manager Information System</h2>
         <h5 class="text-muted">Term - 1 Report Card Preview</h5>
     </div>
 
-    <div class="row mb-4">
+    <!-- Student info – stack on mobile -->
+    <div class="row mb-4 student-info">
         <div class="col-md-6">
             <p><strong>Student Name:</strong> {{ data.student.name }}</p>
             <p><strong>Student ID:</strong> {{ data.student.student_id_code }}</p>
             <p><strong>Program:</strong> Computer Science</p>
         </div>
-        <div class="col-md-6 text-end">
+        <div class="col-md-6 text-md-end">
             <p><strong>Total Days:</strong> {{ data.total_days }}</p>
             <p><strong>Attended:</strong> {{ data.attended_days }}</p>
-            <p><strong>Attendance:</strong> <span class="badge {% if data.attendance_perc >= 75 %}bg-success{% else %}bg-danger{% endif %}">{{ data.attendance_perc }}%</span></p>
+            <p><strong>Attendance:</strong> 
+                <span class="badge {% if data.attendance_perc >= 75 %}bg-success{% else %}bg-danger{% endif %}">
+                    {{ data.attendance_perc }}%
+                </span>
+            </p>
         </div>
     </div>
 
-    <table class="table table-bordered text-center align-middle">
-        <thead class="table-dark">
-            <tr>
-                <th>Subject Name</th>
-                <th>Total Marks</th>
-                <th>Marks Obtained</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr><td class="text-start">English</td><td>100</td><td>{{ data.eng }}</td></tr>
-            <tr><td class="text-start">Urdu</td><td>100</td><td>{{ data.urdu }}</td></tr>
-            <tr><td class="text-start">Mathematics</td><td>100</td><td>{{ data.math }}</td></tr>
-            <tr><td class="text-start">Physics</td><td>100</td><td>{{ data.phy }}</td></tr>
-            <tr><td class="text-start">Computer Science</td><td>100</td><td>{{ data.cs }}</td></tr>
-            <tr><td class="text-start">Programming Fundamentals</td><td>100</td><td>{{ data.prog }}</td></tr>
-            <tr><td class="text-start">Database Systems</td><td>100</td><td>{{ data.db_sys }}</td></tr>
-            
-            <tr class="table-secondary fw-bold">
-                <td class="text-end">GRAND TOTAL</td>
-                <td>{{ data.total }}</td>
-                <td>{{ data.obtained }}</td>
-            </tr>
-        </tbody>
-    </table>
+    <!-- Responsive table wrapper -->
+    <div class="table-responsive">
+        <table class="table table-bordered text-center align-middle">
+            <thead class="table-dark">
+                <tr>
+                    <th>Subject Name</th>
+                    <th>Total Marks</th>
+                    <th>Marks Obtained</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td class="text-start">English</td><td>100</td><td>{{ data.eng }}</td></tr>
+                <tr><td class="text-start">Urdu</td><td>100</td><td>{{ data.urdu }}</td></tr>
+                <tr><td class="text-start">Mathematics</td><td>100</td><td>{{ data.math }}</td></tr>
+                <tr><td class="text-start">Physics</td><td>100</td><td>{{ data.phy }}</td></tr>
+                <tr><td class="text-start">Computer Science</td><td>100</td><td>{{ data.cs }}</td></tr>
+                <tr><td class="text-start">Programming Fundamentals</td><td>100</td><td>{{ data.prog }}</td></tr>
+                <tr><td class="text-start">Database Systems</td><td>100</td><td>{{ data.db_sys }}</td></tr>
+                
+                <tr class="table-secondary fw-bold">
+                    <td class="text-end">GRAND TOTAL</td>
+                    <td>{{ data.total }}</td>
+                    <td>{{ data.obtained }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 
-    <<div class="d-flex justify-content-end mt-5">
+    <!-- Action buttons – stack on mobile -->
+    <div class="d-flex justify-content-end mt-4 action-buttons">
         <button onclick="history.back()" class="btn btn-outline-secondary me-3 fw-bold">← Edit Marks</button>
         
         <form method="POST" action="/save_report">
+            <!-- Hidden fields (no change) -->
             <input type="hidden" name="student_id" value="{{ data.student.id }}">
             <input type="hidden" name="total_days" value="{{ data.total_days }}">
             <input type="hidden" name="attended_days" value="{{ data.attended_days }}">
@@ -67,7 +115,8 @@
             <input type="hidden" name="grade" value="{{ data.grade }}">
             <input type="hidden" name="remarks" value="{{ data.remarks }}">
 
-            <button type="submit" class="btn btn-success fw-bold">Confirm & Save to Database</button>
+            <button type="submit" class="btn btn-success fw-bold">💾 Confirm & Save to Database</button>
         </form>
     </div>
+</div>
 {% endblock %}

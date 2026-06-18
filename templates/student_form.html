@@ -3,15 +3,36 @@
 {% block title %}Add New User - Grade Manager{% endblock %}
 
 {% block content %}
-<div class="d-flex justify-content-between align-items-center mb-4">
-    <h2 class="text-dark">Add New User</h2>
+<style>
+    /* Mobile polish */
+    @media (max-width: 576px) {
+        .form-card {
+            padding: 1.2rem !important;
+            border-radius: 12px !important;
+        }
+        .form-card h5 {
+            font-size: 1rem;
+        }
+        .form-card label {
+            font-size: 0.9rem;
+        }
+        .form-card input,
+        .form-card select {
+            font-size: 1rem;  /* prevents iOS zoom on focus */
+            padding: 0.6rem;
+        }
+    }
+</style>
+
+<div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+    <h2 class="text-dark fw-bold">➕ Add New User</h2>
     <a href="/students" class="btn btn-outline-secondary fw-bold">← Back to List</a>
 </div>
 
-<div class="card p-4 shadow-sm border-0" style="max-width: 800px; margin: auto;">
+<div class="card p-4 shadow-sm border-0 form-card" style="max-width: 800px; margin: auto;">
     <form method="POST" action="/add_user">
         
-        <h5 class="text-primary mb-3 border-bottom pb-2">Personal Information</h5>
+        <h5 class="text-primary mb-3 border-bottom pb-2">📋 Personal Information</h5>
         <div class="row">
             <div class="col-md-6 mb-3">
                 <label class="form-label fw-bold">Full Name</label>
@@ -30,7 +51,7 @@
             </div>
             <div class="col-md-6 mb-3">
                 <label class="form-label fw-bold">Contact Number</label>
-                <input type="text" name="contact" class="form-control" placeholder="0300-1234567" required>
+                <input type="tel" name="contact" class="form-control" placeholder="0300-1234567" required>
             </div>
         </div>
 
@@ -39,7 +60,7 @@
             <input type="text" name="qualifications" class="form-control" placeholder="e.g. SSC Science Group (2023), HSSC Pre-Eng" required>
         </div>
 
-        <h5 class="text-primary mb-3 border-bottom pb-2">System Credentials</h5>
+        <h5 class="text-primary mb-3 border-bottom pb-2">🔐 System Credentials</h5>
         <div class="row">
             <div class="col-md-6 mb-3">
                 <label class="form-label fw-bold">Role</label>
@@ -55,11 +76,16 @@
             </div>
         </div>
 
-        <div class="alert alert-info py-2">
-            <strong>Note:</strong> A unique 6-digit Student ID will be generated automatically upon saving. Default password is 'admin123'.
+        <div class="alert alert-info py-2 d-flex align-items-start gap-2">
+            <span>💡</span>
+            <div>
+                <strong>Note:</strong> A unique 6-digit Student ID will be generated automatically upon saving. Default password is <code>admin123</code>.
+            </div>
         </div>
 
-        <button type="submit" class="btn btn-primary w-100 fw-bold" style="background: #5e35b1; border: none;">Save Full Profile</button>
+        <button type="submit" class="btn btn-primary w-100 fw-bold py-2 mt-2" style="background: #5e35b1; border: none; font-size: 1.05rem;">
+            💾 Save Full Profile
+        </button>
         
     </form>
 </div>
