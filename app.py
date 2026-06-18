@@ -323,5 +323,48 @@ def analysis_dashboard():
                            avg_perc=avg_percentage,
                            top_students=top_students)
 
+
+@app.route('/debug')
+def debug_view():
+    # Sirf admin dekh sakta hai
+    if 'user_id' not in session or session.get('user_role') != 'admin':
+        return redirect(url_for('login'))
+    
+    import os
+    db_uri = app.config.get('SQLALCHEMY_DATABASE_URI', 'Unknown')
+    
+    # DB file existence check (only for sqlite)
+    file_exists = "N/A"
+    if 'sqlite' in db_uri:
+        db_path = db_uri.replace('sqlite:///', '')
+        file_exists = os.path.exists(db_path)
+    
+    students_count = Student.query.count()
+    teachers_count = Student.query.filter_by(role='teacher').count()
+    reports_count = ReportCard.query.count()
+    grades_count = Grade.query.count()
+    
+    last_students = Student.query.order_by(Student.id.desc()).limit(3).all()
+    admin = Student.query.filter_by(username='admin').first()
+    
+    html = f"""
+    <h2>🔍 Debug Dashboard</h2>
+    <table border="1" cellpadding="10">
+        <tr><td>DB URI</td><td>{db_uri}</td></tr>
+        <tr><td>DB File Exists?</td><td>{file_exists}</td></tr>
+        <tr><td>Total Students</td><td>{students_count}</td></tr>
+        <tr><td>Total Teachers</td><td>{teachers_count}</td></tr>
+        <tr><td>Total Reports</td><td>{reports_count}</td></tr>
+        <tr><td>Total Grades</td><td>{grades_count}</td></tr>
+        <tr><td>Admin Found?</td><td>{'Yes – ' + admin.name if admin else 'NO ❌'}</td></tr>
+    </table>
+    <h3>Last 3 Students</h3>
+    <ul>
+        {''.join(f'<li>{s.name} ({s.student_id_code})</li>' for s in last_students) if last_students else '<li>None</li>'}
+    </ul>
+    <p><a href="/">Go to Dashboard</a></p>
+    """
+    return html
+
 if __name__ == '__main__':
     app.run(debug=True)
